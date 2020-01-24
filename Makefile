@@ -6,7 +6,7 @@
 #    By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/24 18:49:21 by obanshee          #+#    #+#              #
-#    Updated: 2020/01/24 18:51:16 by obanshee         ###   ########.fr        #
+#    Updated: 2020/01/24 20:05:02 by obanshee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,18 +32,22 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C $(LIBFTPRINTF_PATH)
 	@gcc -o $(NAME) $(FLAGS) $(INC) $(OBJ) $(LIBFTPRINTF)
+	@echo "\033[32mBinary \033[1;32m$(NAME)\033[1;0m\033[32m created.\033[0m"
 
 $(OBJ_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir -p obj
 	@gcc -c $(FLAGS) $(INC) $< -o $@
+	@echo "\033[34m\033[1mCompilation of \033[0m\033[36m$(notdir $<)\033[1m\033[34m done.\033[0m"
 
 clean:
 	@make -C $(LIBFTPRINTF_PATH)/ clean
 	@/bin/rm -rf $(OBJ_PATH)
+	@echo "\033[31mObjects files \033[1;31m$(OBJS_LIST)\033[1;0m\033[31m removed.\033[0m"
 
 fclean: clean
 	@make -C $(LIBFTPRINTF_PATH)/ fclean
 	@/bin/rm -rf $(NAME)
+	@echo "\033[31mBin \033[1;31m$(NAME)\033[1;0m\033[31m removed.\033[0m"
 
 re: fclean all
 

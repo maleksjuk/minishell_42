@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/24 18:57:17 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:57:43 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,4 @@
 # include <signal.h>
 # include <fcntl.h>
 
-#endif MINISHELL_H
+#endif
