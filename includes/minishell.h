@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/28 13:53:22 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:12:44 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**get_env(char **envp);
 int	cmd_echo(char *str);
 int	cmd_cd(char *path);
 int	cmd_pwd(void);
-int	cmd_env(char **envp);
+int	cmd_env(char **env);
 char	**cmd_setenv(char *str, char **env);
 
 #endif

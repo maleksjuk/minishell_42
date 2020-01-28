@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/28 13:53:56 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:12:41 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	cmd_env(char **env)
 {
 	int	i;
 
+	if (!env)
+		return (0);
 	i = 0;
 	while (env[i])
 	{
@@ -82,11 +84,10 @@ char	**cmd_setenv(char *str, char **env)
 	while (env[i++]);
 	if (!(env_new = (char **)malloc(sizeof(char *) * (i + 2))))
 		return (NULL);
-	env_new[i + 1] = NULL;
+	env_new[i - 1] = ft_strdup(str);
+	env_new[i] = NULL;
 	i = -1;
 	while (env[++i])
 		env_new[i] = ft_strdup(env[i]);
-	env_new[i] = ft_strdup(str);
-	// *env = env_new;
 	return (env_new);
 }
