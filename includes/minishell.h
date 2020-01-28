@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/24 19:57:43 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/28 12:20:53 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include "../libftprintf/includes/ft_printf.h"
+# include "../libftprintf/includes/get_next_line.h"
+# include "../libftprintf/includes/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <dirent.h>
@@ -26,5 +28,15 @@
 # include <sys/resource.h>
 # include <signal.h>
 # include <fcntl.h>
+
+# define LEN_PATH 1024
+
+/*
+**  commands.c
+*/
+int	cmd_echo(char *str);
+int	cmd_cd(char *path);
+int	cmd_pwd(void);
+int	cmd_env(char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/24 18:49:21 by obanshee          #+#    #+#              #
-#    Updated: 2020/01/24 20:05:02 by obanshee         ###   ########.fr        #
+#    Updated: 2020/01/28 11:37:28 by obanshee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFTPRINTF = libftprintf/libftprintf.a
 
 INC = -I includes/ -I libftprintf/includes/
 
-SRCS_NAME = main.c 
+SRCS_NAME = main.c commands.c
 
 SRCS_PATH = srcs/
 OBJ_PATH  = obj/
