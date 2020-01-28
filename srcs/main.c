@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/28 12:34:19 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/28 13:53:33 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,59 @@ int	proccess(char *cmd)
 	return (0);
 }
 
-int	check_cmd(char *str, char **envp)
+int	check_cmd(char *str, char ***env)
 {
 	if (ft_strnequ(str, "echo", 4))
-		return (cmd_echo(str + 5));
+		cmd_echo(str + 5);
 	else if (ft_strnequ(str, "cd", 2))
-		return (cmd_cd(str + 3));
+		cmd_cd(str + 3);
 	else if (ft_strequ(str, "pwd"))
-		return (cmd_pwd());
+		cmd_pwd();
 	else if (ft_strequ(str, "env"))
-		return (cmd_env(envp));
+		cmd_env(*env);
+	else if (ft_strnequ(str, "setenv", 6))
+		*env = cmd_setenv(str + 7, *env);
 	else
-		return (proccess(str));
+		proccess(str);
 	return (0);
+}
+
+char	**get_env(char **envp)
+{
+	char	**env;
+	int		len;
+
+	len = 0;
+	while (envp[len++]);
+	if (!(env = (char **)malloc(sizeof(char *) * (len + 1))))
+		return (NULL);
+	env[len] = NULL;
+	len = -1;
+	while (envp[++len])
+		env[len] = ft_strdup(envp[len]);
+	return (env);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*bufer;
+	char	**env;
 
+	env = get_env(envp);
+	if (!env)
+		return (1);
 	while (1)
 	{
 		ft_printf("$> ");
 		bufer = ft_strnew(LEN_PATH);
 		// read(0, bufer, count);
 		get_next_line(0, &bufer);
-		if (ft_strnequ(bufer, "exit", 4))
-			exit(0);
-		check_cmd(bufer, envp);
+		if (!ft_strequ(bufer, ""))
+		{
+			if (ft_strnequ(bufer, "exit", 4))
+				exit(0);
+			check_cmd(bufer, &env);
+		}
 		free(bufer);
 	}
 	return (0);
