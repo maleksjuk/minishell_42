@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/30 10:42:34 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/30 12:57:40 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_cmd(char *str, char ***env)
 	else if (ft_strnequ(str, "unsetenv", 8))
 		*env = cmd_unsetenv(str + 9, *env);
 	else
-		cmd_other(str, *env);
+		cmd_more(str, *env);
 	return (0);
 }
 

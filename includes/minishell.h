@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/30 10:38:18 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/30 12:57:16 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ char	**cmd_unsetenv(char *name, char **env);
 /*
 **  cmd_exe.c
 */
-int	    cmd_other(char *cmd, char **env);
+int	    cmd_more(char *cmd, char **env);
 
 #endif
