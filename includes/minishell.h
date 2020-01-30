@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/28 14:12:44 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/30 10:38:18 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,23 @@
 char	**get_env(char **envp);
 
 /*
+**	lib_minishell.c
+*/
+char	**set_array_2(int len);
+
+/*
 **  commands.c
 */
-int	cmd_echo(char *str);
-int	cmd_cd(char *path);
-int	cmd_pwd(void);
-int	cmd_env(char **env);
+int	    cmd_echo(char *str);
+int	    cmd_cd(char *path);
+int	    cmd_pwd(void);
+int	    cmd_env(char **env);
 char	**cmd_setenv(char *str, char **env);
+char	**cmd_unsetenv(char *name, char **env);
+
+/*
+**  cmd_exe.c
+*/
+int	    cmd_other(char *cmd, char **env);
 
 #endif
