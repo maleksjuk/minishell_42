@@ -6,29 +6,64 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/30 12:59:25 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/31 10:16:10 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*cmd_program(char *cmd)
+char	*path_program_from_env(char *prgm, char **path_array)
 {
-	char	*str;
-	int		i;
-	int		ins;
+	char		*path;
+	int			i;
+	char		*tmp;
+	struct stat	about;
 
-	ins = 5;
-	if (ft_strnequ(cmd, "/bin/", 5))
-		ins = 0;
-	i = 0;
-	while (cmd[i] && cmd[i] != ' ')
-		i++;
-	str = ft_strnew(i + 1 + ins);
-	ft_strncpy(str, "/bin/", ins);
-	ft_strncpy(str + ins, cmd, i);
-	str[i + ins] = '\0';
-	return (str);
+	path = NULL;
+	i = -1;
+	while (path_array[++i])
+	{
+		tmp = ft_strjoin(path_array[i], "/\0");
+		path = ft_strjoin(tmp, prgm);
+		free(tmp);
+		if (!access(path, F_OK))
+		{
+			stat(path, &about);
+			if (!access(path, X_OK) && S_ISREG(about.st_mode))
+				break ;
+		}
+		free(path);
+		path = NULL;
+	}
+	return (path);
+}
+
+char	*cmd_program(char *prgm, char **env)
+{
+	char		*path;
+	char		**path_array;
+	struct stat	about;
+	int			i;
+
+	if (!access(prgm, F_OK))
+	{
+		stat(prgm, &about);
+		if (!access(prgm, X_OK) && S_ISREG(about.st_mode))
+			return (prgm);
+	}
+	i = -1;
+	while (env[++i])
+		if (ft_strnequ(env[i], "PATH=", 5))
+			break ;
+	path_array = ft_strsplit(env[i] + 5, ':');
+	path = path_program_from_env(prgm, path_array);
+	i = -1;
+	while (path_array[++i])
+		free(path_array[i]);
+	free(path_array);
+	if (!path)
+		return (NULL);
+	return (path);
 }
 
 char	**cmd_arguments(char *cmd)
@@ -39,7 +74,7 @@ char	**cmd_arguments(char *cmd)
 	return (arguments);
 }
 
-int	cmd_system(char *prgm, char **argv, char **env)
+int		cmd_system(char *prgm, char **argv, char **env)
 {
 	pid_t	pid;
 	int		status;
@@ -59,25 +94,16 @@ int	cmd_system(char *prgm, char **argv, char **env)
 	return (-1);
 }
 
-int	cmd_more(char *cmd, char **env)
+int		cmd_more(char *cmd, char **env)
 {
-
 	char	*prgm;
 	char	**argv;
-	// int		i;
 
-	// ft_printf("\tEXE: input: %s\n", cmd);
-	prgm = cmd_program(cmd);
-	// ft_printf("\tEXE: program: %s\n", prgm);
 	argv = cmd_arguments(cmd);
-	// if (!argv)
-	// 	ft_printf("\tEXE: arguments: NULL\n");
-	// else
-	// {
-	// 	i = -1;
-	// 	while (argv[++i])
-	// 		ft_printf("\tEXE: agruments[%i]: %s\n", i, argv[i]);
-	// }
-	cmd_system(prgm, argv, env);
+	prgm = cmd_program(argv[0], env);
+	if (prgm)
+		cmd_system(prgm, argv, env);
+	else
+		ft_printf("\tminishell: command not found: %s\n", argv[0]);
 	return (0);
 }
