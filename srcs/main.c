@@ -6,14 +6,18 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/30 12:57:40 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/31 12:45:26 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_cmd(char *str, char ***env)
+int	check_cmd(char *cmd, char ***env)
 {
+	char	*str;
+
+	str = check_symbols(cmd, *env);
+	// printf("----- |%s|\n", str);
 	if (ft_strnequ(str, "echo", 4))
 		cmd_echo(str + 5);
 	else if (ft_strnequ(str, "cd", 2))
@@ -74,8 +78,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(bufer);
 	}
-	ft_printf("\t$_*_$_*_$_*_$_*_$   M I N I S H E L L  $_*_$_*_$_*_$_*_$\n");
-	ft_printf("\t$_*_$_*_$_*_$_*_$ something went wrong $_*_$_*_$_*_$_*_$\n");
 	return (0);
 	(void)argc;
 	(void)argv;

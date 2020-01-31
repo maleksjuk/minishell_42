@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/30 12:57:16 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/01/31 11:07:57 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**get_env(char **envp);
 char	**set_array_2(int len);
 
 /*
-**  commands.c
+**  cmd_base.c
 */
 int	    cmd_echo(char *str);
 int	    cmd_cd(char *path);
@@ -53,8 +53,13 @@ char	**cmd_setenv(char *str, char **env);
 char	**cmd_unsetenv(char *name, char **env);
 
 /*
-**  cmd_exe.c
+**  cmd_more.c
 */
 int	    cmd_more(char *cmd, char **env);
+
+/*
+**  symbols.c
+*/
+char    *check_symbols(char *cmd, char **env);
 
 #endif
