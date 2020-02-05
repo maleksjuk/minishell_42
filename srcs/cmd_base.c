@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/30 12:58:43 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/05 10:07:19 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 
 int	cmd_echo(char *str)
 {
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i + j])
+	{
+		if (str[i + j] == '"')
+			j++;
+		str[i] = str[i + j];
+		i++;
+	}
+	str[i] = '\0';
 	ft_printf("\t%s\n", str);
 	return (0);
 }

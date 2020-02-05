@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/31 10:16:10 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/05 11:31:09 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ int		cmd_more(char *cmd, char **env)
 	if (prgm)
 		cmd_system(prgm, argv, env);
 	else
-		ft_printf("\tminishell: command not found: %s\n", argv[0]);
+		error_message("command not found", argv[0]);
 	return (0);
 }

@@ -6,18 +6,26 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/31 12:45:26 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/05 11:20:32 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_cmd(char *cmd, char ***env)
+int		error_message(char *str, char *file)
+{
+	ft_printf("msh: %s: %s\n", str, file);
+	return (0);
+}
+
+int		check_cmd(char *cmd, char ***env)
 {
 	char	*str;
 
 	str = check_symbols(cmd, *env);
 	// printf("----- |%s|\n", str);
+	if (!str)
+		return (0);
 	if (ft_strnequ(str, "echo", 4))
 		cmd_echo(str + 5);
 	else if (ft_strnequ(str, "cd", 2))

@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/01/31 11:07:57 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/05 11:18:01 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 /*
 **	main.c
 */
+int	    error_message(char *str, char *file);
 char	**get_env(char **envp);
 
 /*
