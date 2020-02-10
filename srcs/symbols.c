@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/10 12:51:59 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/10 12:57:26 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,12 @@ char	*sml_dollar(char *cmd, char **env)
 				return (NULL);
 			else if (len != -1)
 				j += len - 1;
+			else
+				j--;
 			i++;
 			while (ft_isalnum(cmd[i]) || cmd[i] == '_')
 				i++;
+			i--;
 		}
 		else
 			str[j] = cmd[i];
