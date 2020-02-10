@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/05 11:29:28 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/10 10:21:18 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*var_from_env(char **env, char *name)
 	i = -1;
 	while (env[++i])
 		if (ft_strnequ(env[i], name, ft_strlen(name)))
-			break ;
+			if (env[i][ft_strlen(name)] == '=')
+				break ;
+	if (!env[i])
+		return (NULL);
 	var = ft_strdup(env[i] + ft_strlen(name) + 1);
 	return (var);
 }
