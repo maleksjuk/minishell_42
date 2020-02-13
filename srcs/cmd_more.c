@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/10 11:51:20 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/13 13:22:17 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ char	**cmd_arguments(char *cmd)
 	int		i;
 
 	len = nbr_args(cmd);
-	arguments = (char **)malloc(sizeof(char *) * len);
+	arguments = set_array_2(len + 1);
 	i = 0;
 	while (i < len)
 	{
@@ -131,7 +131,6 @@ char	**cmd_arguments(char *cmd)
 			cmd++;
 		i++;
 	}
-	arguments[i] = NULL;
 	return (arguments);
 }
 
@@ -159,6 +158,7 @@ int		cmd_more(char *cmd, char **env)
 {
 	char	*prgm;
 	char	**argv;
+	int 	i;
 
 	argv = cmd_arguments(cmd);
 	prgm = cmd_program(argv[0], env);
@@ -166,5 +166,10 @@ int		cmd_more(char *cmd, char **env)
 		cmd_system(prgm, argv, env);
 	else
 		error_message("command not found", argv[0]);
+	i = -1;
+	while (argv[++i])
+		free(argv[i]);
+	free(argv);
+	free(prgm);
 	return (0);
 }

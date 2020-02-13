@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/05 11:18:01 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/13 13:18:18 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ char	**get_env(char **envp);
 **	lib_minishell.c
 */
 char	**set_array_2(int len);
+char	*var_from_env(char **env, char *name);
 
 /*
 **  cmd_base.c
 */
 int	    cmd_echo(char *str);
-int	    cmd_cd(char *path);
+int	    cmd_cd(char **env, char *path);
 int	    cmd_pwd(void);
 int	    cmd_env(char **env);
 char	**cmd_setenv(char *str, char **env);
@@ -62,5 +63,12 @@ int	    cmd_more(char *cmd, char **env);
 **  symbols.c
 */
 char    *check_symbols(char *cmd, char **env);
+
+/*
+**  sml_tilda.c
+*/
+char	*users_tilda(char *cmd, char **env);
+int		sml_tilda_check(char *cmd, char *str, char **env);
+char	*sml_tilda(char *cmd, char **env);
 
 #endif
