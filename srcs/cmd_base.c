@@ -6,13 +6,13 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/13 13:35:05 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 11:31:42 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	cmd_echo(char *str)
+int		cmd_echo(char *str)
 {
 	int	i;
 	int	j;
@@ -31,34 +31,36 @@ int	cmd_echo(char *str)
 	return (0);
 }
 
-int	cmd_cd(char **env, char *path)
+char	**cmd_cd(char ***env, char *path)
 {
-	char	*current_path;
-	char	*search_path;
-	int		i;
+	char		*current_path;
+	char		*search_path;
+	int			i;
 	struct stat	about;
 
+	current_path = ft_strnew(LEN_PATH);
+	current_path = getcwd(current_path, LEN_PATH);
 	if (!path)
 	{
-		search_path = var_from_env(env, "HOME");
+		search_path = var_from_env(*env, "HOME");
 		if (chdir(search_path))
 			error_message("error", "cd");
 	}
 	else if (ft_strequ(path, "-"))
 	{
-		search_path = var_from_env(env, "OLDPWD");
+		search_path = var_from_env(*env, "OLDPWD");
 		if (chdir(search_path))
 			error_message("error", "cd");
 	}
 	else
 	{
-		current_path = ft_strnew(LEN_PATH);
-		current_path = getcwd(current_path, LEN_PATH);
+		// current_path = ft_strnew(LEN_PATH);
+		// current_path = getcwd(current_path, LEN_PATH);
 		i = 0;
 		while (current_path[i])
 			i++;
 		if (i >= LEN_PATH)
-			return (1);
+			return (*env);
 		current_path[i] = '/';
 		if (path[0] != '/')
 			search_path = ft_strjoin(current_path, path);
@@ -74,13 +76,18 @@ int	cmd_cd(char **env, char *path)
 			ft_printf("\tcd: permission denied: %s\n", path);
 		else if (chdir(search_path))
 			ft_printf("\terror cd\n");
-		free(current_path);
+		
 	}
+	*env = cmd_unsetenv("OLDPWD", *env);
+	*env = cmd_setenv(ft_strjoin("OLDPWD=", current_path), *env);
+	*env = cmd_unsetenv("PWD", *env);
+	*env = cmd_setenv(ft_strjoin("PWD=", search_path), *env);
+	free(current_path);
 	free(search_path);
-	return (0);
+	return (*env);
 }
 
-int	cmd_pwd(void)
+int		cmd_pwd(void)
 {
 	char	*path;
 
@@ -93,7 +100,7 @@ int	cmd_pwd(void)
 	return (0);
 }
 
-int	cmd_env(char **env)
+int		cmd_env(char **env)
 {
 	int	i;
 

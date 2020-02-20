@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/13 13:10:38 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 10:23:55 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ char	*check_symbols(char *cmd, char **env)
 	if (!str)
 		return (NULL);
 	free(tmp);
-	printf("check_symbols(): trim = |%s|; ", str);
+	// printf("check_symbols(): trim = |%s|; ", str);
 	if (ft_strchr(str, '~'))
 	{
 		tmp = str;
 		str = sml_tilda(str, env);
-		printf("tilda = |%s|; ", str);
+		// printf("tilda = |%s|; ", str);
 		if (!str)
 			return (NULL);
 		free(tmp);
@@ -112,7 +112,7 @@ char	*check_symbols(char *cmd, char **env)
 	{
 		tmp = str;
 		str = sml_dollar(str, env);
-		printf("dollar = |%s|", str);
+		// printf("dollar = |%s|", str);
 		if (!str)
 			return (NULL);
 		free(tmp);

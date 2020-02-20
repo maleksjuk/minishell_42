@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/13 13:26:09 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 11:30:03 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		check_cmd(char *cmd, char ***env)
 	char	*str;
 
 	str = check_symbols(cmd, *env);
-	printf("command: |%s|\n", str);
+	// printf("command: |%s|\n", str);
 	if (!str)
 		return (0);
 	else if (!*str)
@@ -31,7 +31,7 @@ int		check_cmd(char *cmd, char ***env)
 	if (ft_strnequ(str, "echo", 4))
 		cmd_echo(str + 5);
 	else if (ft_strnequ(str, "cd", 2))
-		cmd_cd(*env, ft_strlen(str) > 2 ? str + 3 : NULL);
+		*env = cmd_cd(env, ft_strlen(str) > 2 ? str + 3 : NULL);
 	else if (ft_strequ(str, "pwd"))
 		cmd_pwd();
 	else if (ft_strequ(str, "env"))

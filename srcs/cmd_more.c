@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/13 13:22:17 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 10:17:07 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,19 @@ char	*cmd_program(char *prgm, char **env)
 	char		**path_array;
 	struct stat	about;
 	int			i;
+	char		*var_path;
 
-	if (!access(prgm, F_OK))
-	{
-		stat(prgm, &about);
-		if (!access(prgm, X_OK) && S_ISREG(about.st_mode))
-			return (prgm);
-	}
-	i = -1;
-	while (env[++i])
-		if (ft_strnequ(env[i], "PATH=", 5))
-			break ;
-	path_array = ft_strsplit(env[i] + 5, ':');
+	if (ft_strchr(prgm, '/'))
+		if (!access(prgm, F_OK))
+		{
+			stat(prgm, &about);
+			if (!access(prgm, X_OK) && S_ISREG(about.st_mode))
+				return (prgm);
+		}
+	var_path = var_from_env(env, "PATH");
+	if (!var_path)
+		return (NULL);
+	path_array = ft_strsplit(var_path, ':');
 	path = path_program_from_env(prgm, path_array);
 	i = -1;
 	while (path_array[++i])
