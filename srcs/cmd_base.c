@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 11:31:42 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 13:10:24 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,64 +27,8 @@ int		cmd_echo(char *str)
 		i++;
 	}
 	str[i] = '\0';
-	ft_printf("\t%s\n", str);
+	ft_printf("%s\n", str);
 	return (0);
-}
-
-char	**cmd_cd(char ***env, char *path)
-{
-	char		*current_path;
-	char		*search_path;
-	int			i;
-	struct stat	about;
-
-	current_path = ft_strnew(LEN_PATH);
-	current_path = getcwd(current_path, LEN_PATH);
-	if (!path)
-	{
-		search_path = var_from_env(*env, "HOME");
-		if (chdir(search_path))
-			error_message("error", "cd");
-	}
-	else if (ft_strequ(path, "-"))
-	{
-		search_path = var_from_env(*env, "OLDPWD");
-		if (chdir(search_path))
-			error_message("error", "cd");
-	}
-	else
-	{
-		// current_path = ft_strnew(LEN_PATH);
-		// current_path = getcwd(current_path, LEN_PATH);
-		i = 0;
-		while (current_path[i])
-			i++;
-		if (i >= LEN_PATH)
-			return (*env);
-		current_path[i] = '/';
-		if (path[0] != '/')
-			search_path = ft_strjoin(current_path, path);
-		else
-			search_path = ft_strdup(path);
-		if (stat(search_path, &about))
-			ft_printf("ERROR\n");
-		else if (access(search_path, F_OK))
-			ft_printf("\tcd: no such file or directory: %s\n", path);
-		else if (!S_ISDIR(about.st_mode))
-			ft_printf("\tcd: not a directory: %s\n", path);
-		else if (access(search_path, X_OK))
-			ft_printf("\tcd: permission denied: %s\n", path);
-		else if (chdir(search_path))
-			ft_printf("\terror cd\n");
-		
-	}
-	*env = cmd_unsetenv("OLDPWD", *env);
-	*env = cmd_setenv(ft_strjoin("OLDPWD=", current_path), *env);
-	*env = cmd_unsetenv("PWD", *env);
-	*env = cmd_setenv(ft_strjoin("PWD=", search_path), *env);
-	free(current_path);
-	free(search_path);
-	return (*env);
 }
 
 int		cmd_pwd(void)
@@ -94,8 +38,8 @@ int		cmd_pwd(void)
 	path = ft_strnew(LEN_PATH);
 	path = getcwd(path, LEN_PATH);
 	if (!path)
-		ft_printf("\tnull\n");
-	ft_printf("\t%s\n", path);
+		ft_printf("null\n");
+	ft_printf("%s\n", path);
 	free(path);
 	return (0);
 }
@@ -109,7 +53,7 @@ int		cmd_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		ft_printf("\t%s\n", env[i]);
+		ft_printf("%s\n", env[i]);
 		i++;
 	}
 	return (0);
@@ -121,7 +65,8 @@ char	**cmd_setenv(char *str, char **env)
 	int		i;
 
 	i = 0;
-	while (env[i++]);
+	while (env[i])
+		i++;
 	env_new = set_array_2(i + 2);
 	env_new[i - 1] = ft_strdup(str);
 	i = -1;
@@ -139,7 +84,8 @@ char	**cmd_unsetenv(char *name, char **env)
 
 	len = ft_strlen(name);
 	i = 0;
-	while (env[i++]);
+	while (env[i])
+		i++;
 	env_new = set_array_2(i - 1);
 	i = -1;
 	j = 0;

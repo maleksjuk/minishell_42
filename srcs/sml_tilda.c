@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:01:24 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/13 11:01:40 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 13:07:34 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,17 @@ int		sml_tilda_check(char *cmd, char *str, char **env)
 	return (ft_strlen(tmp) + i);
 }
 
+void	helper_tilda(char c, int *quote)
+{
+	if (c == '"')
+	{
+		if (*quote)
+			*quote = 0;
+		else
+			*quote = 1;
+	}
+}
+
 char	*sml_tilda(char *cmd, char **env)
 {
 	char	*str;
@@ -72,18 +83,12 @@ char	*sml_tilda(char *cmd, char **env)
 	int		len;
 
 	str = ft_strnew(LEN_PATH * 2);
-	i = 0;
+	i = -1;
 	j = 0;
 	quote = 0;
-	while (cmd[i])
+	while (cmd[++i])
 	{
-		if (cmd[i] == '"')
-		{
-			if (!quote)
-				quote = 1;
-			else
-				quote = 0;
-		}
+		helper_tilda(cmd[i], &quote);
 		if (cmd[i] == '~' && !quote)
 		{
 			len = sml_tilda_check(&cmd[i], &str[j], env);
@@ -93,7 +98,6 @@ char	*sml_tilda(char *cmd, char **env)
 		}
 		else
 			str[j] = cmd[i];
-		i++;
 		j++;
 	}
 	return (str);

@@ -6,37 +6,11 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 10:17:07 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 13:19:01 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char	*path_program_from_env(char *prgm, char **path_array)
-{
-	char		*path;
-	int			i;
-	char		*tmp;
-	struct stat	about;
-
-	path = NULL;
-	i = -1;
-	while (path_array[++i])
-	{
-		tmp = ft_strjoin(path_array[i], "/\0");
-		path = ft_strjoin(tmp, prgm);
-		free(tmp);
-		if (!access(path, F_OK))
-		{
-			stat(path, &about);
-			if (!access(path, X_OK) && S_ISREG(about.st_mode))
-				break ;
-		}
-		free(path);
-		path = NULL;
-	}
-	return (path);
-}
 
 char	*cmd_program(char *prgm, char **env)
 {
@@ -153,24 +127,4 @@ int		cmd_system(char *prgm, char **argv, char **env)
 	else if (WIFEXITED(status))
 		return (WIFEXITED(status));
 	return (-1);
-}
-
-int		cmd_more(char *cmd, char **env)
-{
-	char	*prgm;
-	char	**argv;
-	int 	i;
-
-	argv = cmd_arguments(cmd);
-	prgm = cmd_program(argv[0], env);
-	if (prgm)
-		cmd_system(prgm, argv, env);
-	else
-		error_message("command not found", argv[0]);
-	i = -1;
-	while (argv[++i])
-		free(argv[i]);
-	free(argv);
-	free(prgm);
-	return (0);
 }

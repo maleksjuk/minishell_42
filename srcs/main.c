@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 11:30:03 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 13:28:43 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,33 @@ int		error_message(char *str, char *file)
 	return (0);
 }
 
+int		cmd_more(char *cmd, char **env)
+{
+	char	*prgm;
+	char	**argv;
+	int		i;
+
+	argv = cmd_arguments(cmd);
+	prgm = cmd_program(argv[0], env);
+	if (prgm)
+	{
+		cmd_system(prgm, argv, env);
+		i = -1;
+		while (argv[++i])
+			free(argv[i]);
+		free(argv);
+		free(prgm);
+	}
+	else
+		error_message("command not found", argv[0]);
+	return (0);
+}
+
 int		check_cmd(char *cmd, char ***env)
 {
 	char	*str;
 
 	str = check_symbols(cmd, *env);
-	// printf("command: |%s|\n", str);
 	if (!str)
 		return (0);
 	else if (!*str)
@@ -49,39 +70,44 @@ char	**get_env(char **envp)
 {
 	char	**env;
 	int		len;
+	char	*str;
+	char	*tmp;
 
 	len = 0;
-	while (envp[len++]);
+	while (envp[len])
+		len++;
 	env = set_array_2(len + 1);
 	len = -1;
 	while (envp[++len])
 		env[len] = ft_strdup(envp[len]);
+	if (!env)
+		return (NULL);
+	check_cmd("cd", &env);
+	env = cmd_unsetenv("OLDPWD", env);
+	str = var_from_env(env, "PWD");
+	tmp = ft_strjoin("OLDPWD=", str);
+	env = cmd_setenv(tmp, env);
 	return (env);
 }
 
-int	main(int argc, char **argv, char **envp)
+int		main(int argc, char **argv, char **envp)
 {
 	char	*bufer;
 	char	**env;
 
-	ft_printf("\t$_*_$_*_$_*_$_*_$ MINISHELL $_*_$_*_$_*_$_*_$\n");
-	ft_printf("\t$_*_$_*_$_*_$_*_$ welcome   $_*_$_*_$_*_$_*_$\n");
 	env = get_env(envp);
 	if (!env)
 		return (1);
 	while (1)
 	{
-		ft_printf("\tminishell_$ ");
+		ft_printf("---minishell$ ");
 		bufer = ft_strnew(LEN_PATH);
-		// read(0, bufer, count);
 		get_next_line(0, &bufer);
 		if (!ft_strequ(bufer, ""))
 		{
 			if (ft_strnequ(bufer, "exit", 4))
 			{
-				ft_printf("\texit\n");
-				ft_printf("\t$_*_$_*_$_*_$_*_$ MINISHELL $_*_$_*_$_*_$_*_$\n");
-				ft_printf("\t$_*_$_*_$_*_$_*_$  good bye $_*_$_*_$_*_$_*_$\n");
+				ft_printf("exit\n");
 				exit(0);
 			}
 			check_cmd(bufer, &env);

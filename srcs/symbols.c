@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 10:23:55 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 12:37:05 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@ int		sml_dollar_check(char *cmd, char *str, char **env)
 	return (ft_strlen(tmp));
 }
 
+void	helper_dollar(char *cmd, int *i, int *j, int len)
+{
+	if (len != -1)
+		*j += len - 1;
+	else
+		(*j)--;
+	(*i)++;
+	while (ft_isalnum(cmd[*i]) || cmd[*i] == '_')
+		(*i)++;
+	(*i)--;
+}
+
 char	*sml_dollar(char *cmd, char **env)
 {
 	char	*str;
@@ -48,14 +60,7 @@ char	*sml_dollar(char *cmd, char **env)
 			len = sml_dollar_check(&cmd[i], &str[j], env);
 			if (!len)
 				return (NULL);
-			else if (len != -1)
-				j += len - 1;
-			else
-				j--;
-			i++;
-			while (ft_isalnum(cmd[i]) || cmd[i] == '_')
-				i++;
-			i--;
+			helper_dollar(cmd, &i, &j, len);
 		}
 		else
 			str[j] = cmd[i];
@@ -65,45 +70,18 @@ char	*sml_dollar(char *cmd, char **env)
 	return (str);
 }
 
-char	*ft_strtrim_into(char *src)
-{
-	char	*dst;
-	int		i;
-
-	if (!(dst = ft_strnew(ft_strlen(src) + 1)))
-		return (NULL);
-	i = 0;
-	while (*src)
-	{
-		if (*src == ' ' || *src == '\t')
-		{
-			if (!(*(src - 1) == ' ' || *(src - 1) == '\t'))
-				dst[i++] = ' ';
-		}
-		else
-			dst[i++] = *src;
-		src++;
-	}
-	return (dst);
-}
-
 char	*check_symbols(char *cmd, char **env)
 {
 	char	*str;
 	char	*tmp;
 
-	str = ft_strtrim(cmd);
-	tmp = str;
-	str = ft_strtrim_into(str);
+	str = ft_strtrim_into(cmd);
 	if (!str)
 		return (NULL);
-	free(tmp);
-	// printf("check_symbols(): trim = |%s|; ", str);
 	if (ft_strchr(str, '~'))
 	{
 		tmp = str;
 		str = sml_tilda(str, env);
-		// printf("tilda = |%s|; ", str);
 		if (!str)
 			return (NULL);
 		free(tmp);
@@ -112,11 +90,9 @@ char	*check_symbols(char *cmd, char **env)
 	{
 		tmp = str;
 		str = sml_dollar(str, env);
-		// printf("dollar = |%s|", str);
 		if (!str)
 			return (NULL);
 		free(tmp);
 	}
-	printf("\n");
 	return (str);
 }

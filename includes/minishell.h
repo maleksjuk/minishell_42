@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 11:30:16 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/20 13:20:25 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 **	main.c
 */
 int	    error_message(char *str, char *file);
+int	    cmd_more(char *cmd, char **env);
+int		check_cmd(char *cmd, char ***env);
 char	**get_env(char **envp);
 
 /*
@@ -44,21 +46,30 @@ char	**get_env(char **envp);
 char	**set_array_2(int len);
 char	*var_from_env(char **env, char *name);
 char	**var_to_env(char **env, char *name, char *var);
+char	*ft_strtrim_into(char *cmd);
+char	*path_program_from_env(char *prgm, char **path_array);
 
 /*
 **  cmd_base.c
 */
 int	    cmd_echo(char *str);
-char    **cmd_cd(char ***env, char *path);
 int	    cmd_pwd(void);
 int	    cmd_env(char **env);
 char	**cmd_setenv(char *str, char **env);
 char	**cmd_unsetenv(char *name, char **env);
 
 /*
+**  cmd_cd.c
+*/
+char    **cmd_cd(char ***env, char *path);
+char	**cmd_arguments(char *cmd);
+int		cmd_system(char *prgm, char **argv, char **env);
+
+/*
 **  cmd_more.c
 */
-int	    cmd_more(char *cmd, char **env);
+char	*cmd_program(char *prgm, char **env);
+
 
 /*
 **  symbols.c
