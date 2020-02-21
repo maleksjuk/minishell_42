@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 13:28:43 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/21 17:54:08 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ int		cmd_more(char *cmd, char **env)
 	if (prgm)
 	{
 		cmd_system(prgm, argv, env);
-		i = -1;
-		while (argv[++i])
-			free(argv[i]);
-		free(argv);
-		free(prgm);
+		i = 0;
+		// while (argv[i])
+		// {
+		// 	free(argv[i]);
+		// 	i++;
+		// }
+		// free(argv);
+		// free(prgm);
 	}
 	else
 		error_message("command not found", argv[0]);
@@ -70,23 +73,18 @@ char	**get_env(char **envp)
 {
 	char	**env;
 	int		len;
-	char	*str;
-	char	*tmp;
 
+	if (!envp)
+		return (NULL);
 	len = 0;
 	while (envp[len])
 		len++;
 	env = set_array_2(len + 1);
+	if (!env)
+		return (NULL);
 	len = -1;
 	while (envp[++len])
 		env[len] = ft_strdup(envp[len]);
-	if (!env)
-		return (NULL);
-	check_cmd("cd", &env);
-	env = cmd_unsetenv("OLDPWD", env);
-	str = var_from_env(env, "PWD");
-	tmp = ft_strjoin("OLDPWD=", str);
-	env = cmd_setenv(tmp, env);
 	return (env);
 }
 
@@ -107,7 +105,7 @@ int		main(int argc, char **argv, char **envp)
 		{
 			if (ft_strnequ(bufer, "exit", 4))
 			{
-				ft_printf("exit\n");
+				ft_printf("exit\n\n");
 				exit(0);
 			}
 			check_cmd(bufer, &env);
