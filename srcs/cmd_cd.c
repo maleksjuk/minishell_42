@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 12:40:11 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 13:10:56 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/22 16:25:05 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ char	*helper_cd(char *path, char *current_path, int *i)
 	return (search_path);
 }
 
+char	**to_return_cd(char ***env, char *current)
+{
+	free(current);
+	return (*env);
+}
+
 char	**cmd_cd(char ***env, char *path)
 {
 	char	*current_path;
@@ -53,13 +59,16 @@ char	**cmd_cd(char ***env, char *path)
 	else if (ft_strequ(path, "-"))
 		search_path = var_from_env(*env, "OLDPWD");
 	else if (!(search_path = helper_cd(path, current_path, &flag)))
-		return (*env);
+		return (to_return_cd(env, current_path));
 	if (chdir(search_path) && !flag)
 		error_message("error", "cd");
-	*env = cmd_unsetenv("OLDPWD", *env);
-	*env = cmd_setenv(ft_strjoin("OLDPWD=", current_path), *env);
-	*env = cmd_unsetenv("PWD", *env);
-	*env = cmd_setenv(ft_strjoin("PWD=", search_path), *env);
+	else
+	{
+		*env = cmd_unsetenv("OLDPWD", *env);
+		*env = cmd_setenv(ft_strjoin("OLDPWD=", current_path), *env);
+		*env = cmd_unsetenv("PWD", *env);
+		*env = cmd_setenv(ft_strjoin("PWD=", search_path), *env);
+	}
 	free(current_path);
 	free(search_path);
 	return (*env);

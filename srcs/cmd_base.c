@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 13:10:24 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/22 16:43:42 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,37 +64,47 @@ char	**cmd_setenv(char *str, char **env)
 	char	**env_new;
 	int		i;
 
+	if (!env)
+		return (NULL);
 	i = 0;
 	while (env[i])
 		i++;
-	env_new = set_array_2(i + 2);
-	env_new[i - 1] = ft_strdup(str);
+	if (!(env_new = set_array_2(i + 3)))
+		return (env);
 	i = -1;
 	while (env[++i])
+	{
 		env_new[i] = ft_strdup(env[i]);
+		// free(env[i]);
+	}
+	// free(env);
+	env_new[i] = ft_strdup(str);
 	return (env_new);
 }
-
+//	check
 char	**cmd_unsetenv(char *name, char **env)
 {
 	char	**env_new;
 	int		i;
 	int		j;
-	int		len;
+	size_t	len;
 
-	len = ft_strlen(name);
+	if (!(len = ft_strlen(name)))
+		return (env);
 	i = 0;
 	while (env[i])
 		i++;
-	env_new = set_array_2(i - 1);
+	if (!(env_new = set_array_2(i)))
+		return (env);
 	i = -1;
 	j = 0;
 	while (env[++i])
 	{
-		if (ft_strnequ(env[i], name, len))
-			continue ;
-		env_new[j] = ft_strdup(env[i]);
-		j++;
+		if (!(ft_strequ(env[i], name) || (ft_strnequ(env[i], "name", len) &&
+			ft_strlen(env[i]) > len && env[i][len] == '=')))	//check
+			env_new[j++] = ft_strdup(env[i]);
+		free(env[i]);
 	}
+	free(env);
 	return (env_new);
 }

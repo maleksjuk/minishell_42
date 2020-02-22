@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/20 12:37:05 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/22 16:26:00 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int		sml_dollar_check(char *cmd, char *str, char **env)
 	char	*name;
 
 	i = 1;
-	tmp = NULL;
 	while (ft_isalnum(cmd[i]) || cmd[i] == '_')
 		i++;
 	name = ft_strnew(i);

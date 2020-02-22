@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/21 17:53:00 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/22 16:34:22 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ char	*cmd_program(char *prgm, char **env)
 			if (!access(prgm, X_OK) && S_ISREG(about.st_mode))
 				return (prgm);
 		}
-	var_path = var_from_env(env, "PATH");
-	if (!var_path)
+	if (!(var_path = var_from_env(env, "PATH")))
 		return (NULL);
 	path_array = ft_strsplit(var_path, ':');
+	free(var_path);
 	path = path_program_from_env(prgm, path_array);
 	i = -1;
 	while (path_array[++i])
@@ -92,7 +92,7 @@ char	**cmd_arguments(char *cmd)
 	int		i;
 
 	len = nbr_args(cmd);
-	arguments = set_array_2(len + 1);
+	arguments = set_array_2(len + 2);
 	i = 0;
 	while (i < len)
 	{
