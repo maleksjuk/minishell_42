@@ -6,7 +6,7 @@
 #    By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/24 18:49:21 by obanshee          #+#    #+#              #
-#    Updated: 2020/02/28 11:20:37 by obanshee         ###   ########.fr        #
+#    Updated: 2020/02/28 13:27:46 by obanshee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFTPRINTF = libftprintf/libftprintf.a
 INC = -I includes/ -I libftprintf/includes/
 
 SRCS_NAME = main.c lib_minishell.c cmd_base.c cmd_cd.c cmd_more.c \
-	symbols.c sml_tilda.c main_functions.c
+	symbols.c sml_tilda.c main_functions.c cmd_setenv.c
 
 SRCS_PATH = srcs/
 OBJ_PATH  = obj/

@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/28 11:24:49 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 12:59:05 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,6 @@ int		cmd_env(char **env)
 		i++;
 	}
 	return (0);
-}
-
-char	**cmd_setenv(char *str, char **env)
-{
-	char	**env_new;
-	int		i;
-
-	if (!env)
-		return (NULL);
-	i = 0;
-	while (env[i])
-		i++;
-	if (!(env_new = set_array_2(i + 3)))
-		return (env);
-	i = -1;
-	while (env[++i] && !ft_strequ(env[i], ""))
-	{
-		env_new[i] = ft_strdup(env[i]);
-		free(env[i]);
-	}
-	free(env);
-	env_new[i] = ft_strdup(str);
-	return (env_new);
 }
 
 char	**cmd_unsetenv(char *name, char **env)

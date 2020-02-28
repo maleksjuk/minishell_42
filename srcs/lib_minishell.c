@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 09:57:50 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/22 16:20:28 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 12:42:11 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,29 @@ char	**var_to_env(char **env, char *name, char *var)
 char	*ft_strtrim_into(char *cmd)
 {
 	char	*dst;
-	int		i;
-	char	*tmp;
+	int		mas[2];
 	char	*src;
+	int		quote;
 
 	src = ft_strtrim(cmd);
-	tmp = src;
 	if (!(dst = ft_strnew(ft_strlen(src) + 1)))
 		return (NULL);
-	i = 0;
-	while (*src)
+	mas[0] = 0;
+	mas[1] = -1;
+	quote = 0;
+	while (src[++mas[1]])
 	{
-		if (*src == ' ' || *src == '\t')
+		if (src[mas[1]] == '"')
+			quote = quote ? 0 : 1;
+		if (!quote && (src[mas[1]] == ' ' || src[mas[1]] == '\t'))
 		{
-			if (!(*(src - 1) == ' ' || *(src - 1) == '\t'))
-				dst[i++] = ' ';
+			if (!(src[mas[1] - 1] == ' ' || src[mas[1] - 1] == '\t'))
+				dst[mas[0]++] = ' ';
 		}
 		else
-			dst[i++] = *src;
-		src++;
+			dst[mas[0]++] = src[mas[1]];
 	}
-	free(tmp);
+	free(src);
 	return (dst);
 }
 
