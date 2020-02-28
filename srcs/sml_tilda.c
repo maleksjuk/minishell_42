@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:01:24 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/28 10:22:26 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 12:00:48 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		prepate_to_return(char *tmp, char *cmd)
 	free(tmp);
 	return (i);
 }
-//	check
+
 int		sml_tilda_check(char *cmd, char *str, char **env)
 {
 	char	*tmp;
@@ -71,7 +71,7 @@ int		sml_tilda_check(char *cmd, char *str, char **env)
 	}
 	if (!tmp)
 		return (1);
-	ft_strncpy(str, tmp, ft_strlen(tmp));	//check
+	ft_strncpy(str, tmp, ft_strlen(tmp));
 	return (prepate_to_return(tmp, cmd));
 }
 
@@ -90,7 +90,7 @@ int		helper_tilda(char c, int *quote, char *cmd, int i)
 	return (0);
 }
 
-char	*sml_tilda(char *cmd, char **env)
+char	*sml_tilda(char *cmd, char **env, int nbr)
 {
 	char	*str;
 	int		i;
@@ -98,7 +98,7 @@ char	*sml_tilda(char *cmd, char **env)
 	int		quote;
 	int		len;
 
-	str = ft_strnew(LEN_PATH * 2);
+	str = ft_strnew(ft_strlen(cmd) + LEN_PATH * (nbr + 1) + 1);
 	i = -1;
 	j = 0;
 	quote = 0;

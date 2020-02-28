@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/22 16:26:00 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 12:03:01 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	helper_dollar(char *cmd, int *i, int *j, int len)
 	(*i)--;
 }
 
-char	*sml_dollar(char *cmd, char **env)
+char	*sml_dollar(char *cmd, char **env, int nbr)
 {
 	char	*str;
 	int		i;
 	int		j;
 	int		len;
 
-	str = ft_strnew(LEN_PATH * 2);
+	str = ft_strnew(ft_strlen(cmd) + LEN_PATH * (nbr + 1) + 1);
 	i = 0;
 	j = 0;
 	while (cmd[i])
@@ -69,6 +69,20 @@ char	*sml_dollar(char *cmd, char **env)
 	return (str);
 }
 
+int		nbr_sml(char *str, char c)
+{
+	int	len;
+
+	len = 0;
+	while (*str)
+	{
+		if (*str == c)
+			len++;
+		str++;
+	}
+	return (len);
+}
+
 char	*check_symbols(char *cmd, char **env)
 {
 	char	*str;
@@ -80,7 +94,7 @@ char	*check_symbols(char *cmd, char **env)
 	if (ft_strchr(str, '~'))
 	{
 		tmp = str;
-		str = sml_tilda(str, env);
+		str = sml_tilda(str, env, nbr_sml(str, '~'));
 		if (!str)
 			return (NULL);
 		free(tmp);
@@ -88,7 +102,7 @@ char	*check_symbols(char *cmd, char **env)
 	if (ft_strchr(str, '$'))
 	{
 		tmp = str;
-		str = sml_dollar(str, env);
+		str = sml_dollar(str, env, nbr_sml(str, '$'));
 		if (!str)
 			return (NULL);
 		free(tmp);

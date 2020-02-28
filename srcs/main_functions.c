@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/28 11:20:22 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 11:39:21 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		error_message(char *str, char *file)
 	ft_printf("msh: %s: %s\n", str, file);
 	return (0);
 }
-//	check
+
 int		cmd_more(char *cmd, char **env)
 {
 	char	*prgm;
@@ -37,7 +37,7 @@ int		cmd_more(char *cmd, char **env)
 					free(argv[i]);
 			free(argv);
 		}
-		// free(prgm);
+		free(prgm);
 	}
 	else
 		error_message("command not found", argv[0]);

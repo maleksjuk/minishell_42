@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/22 16:34:22 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 11:38:43 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*cmd_program(char *prgm, char **env)
 		{
 			stat(prgm, &about);
 			if (!access(prgm, X_OK) && S_ISREG(about.st_mode))
-				return (prgm);
+				return (ft_strdup(prgm));
 		}
 	if (!(var_path = var_from_env(env, "PATH")))
 		return (NULL);
