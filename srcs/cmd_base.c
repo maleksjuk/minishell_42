@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/22 16:43:42 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 11:24:49 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,16 @@ char	**cmd_setenv(char *str, char **env)
 	if (!(env_new = set_array_2(i + 3)))
 		return (env);
 	i = -1;
-	while (env[++i])
+	while (env[++i] && !ft_strequ(env[i], ""))
 	{
 		env_new[i] = ft_strdup(env[i]);
-		// free(env[i]);
+		free(env[i]);
 	}
-	// free(env);
+	free(env);
 	env_new[i] = ft_strdup(str);
 	return (env_new);
 }
-//	check
+
 char	**cmd_unsetenv(char *name, char **env)
 {
 	char	**env_new;
@@ -94,15 +94,16 @@ char	**cmd_unsetenv(char *name, char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	if (!(env_new = set_array_2(i)))
+	if (!(env_new = set_array_2(i + 1)))
 		return (env);
 	i = -1;
 	j = 0;
 	while (env[++i])
 	{
-		if (!(ft_strequ(env[i], name) || (ft_strnequ(env[i], "name", len) &&
-			ft_strlen(env[i]) > len && env[i][len] == '=')))	//check
-			env_new[j++] = ft_strdup(env[i]);
+		if (!(ft_strequ(env[i], name)))
+			if (!(ft_strnequ(env[i], name, len) &&
+				ft_strlen(env[i]) > len && env[i][len] == '='))
+				env_new[j++] = ft_strdup(env[i]);
 		free(env[i]);
 	}
 	free(env);

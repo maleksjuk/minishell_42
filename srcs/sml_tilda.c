@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:01:24 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/22 16:31:59 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 10:22:26 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		sml_tilda_check(char *cmd, char *str, char **env)
 	return (prepate_to_return(tmp, cmd));
 }
 
-void	helper_tilda(char c, int *quote)
+int		helper_tilda(char c, int *quote, char *cmd, int i)
 {
 	if (c == '"')
 	{
@@ -84,6 +84,10 @@ void	helper_tilda(char c, int *quote)
 		else
 			*quote = 1;
 	}
+	if (cmd[i] == '~' && !(*quote) && ((i > 0 && cmd[i - 1] == ' ') || i == 0)
+		&& cmd[i + 1] != '~')
+		return (1);
+	return (0);
 }
 
 char	*sml_tilda(char *cmd, char **env)
@@ -100,8 +104,7 @@ char	*sml_tilda(char *cmd, char **env)
 	quote = 0;
 	while (cmd[++i])
 	{
-		helper_tilda(cmd[i], &quote);
-		if (cmd[i] == '~' && !quote)
+		if (helper_tilda(cmd[i], &quote, cmd, i))
 		{
 			len = sml_tilda_check(&cmd[i], &str[j], env);
 			if (!len)

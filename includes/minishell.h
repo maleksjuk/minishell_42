@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/22 16:25:40 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/02/28 11:25:38 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@
 # define LEN_PATH 1024
 
 /*
-**	main.c 6	check cmd_more
+**	main_functions.c 5	check cmd_more
 */
 int	    error_message(char *str, char *file);
 int	    cmd_more(char *cmd, char **env);
 int		check_cmd(char *cmd, char ***env);
 char	**get_env(char **envp);
+void	cmd_exit(char **env, char *bufer);
 
 /*
 **	lib_minishell.c 5	ok
