@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 10:35:13 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/28 11:38:43 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/01 12:00:36 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,12 @@ int		cmd_system(char *prgm, char **argv, char **env)
 	int		status;
 
 	pid = fork();
+	signal(SIGINT, cmd_listener);
 	if (pid == -1)
+	{
+		error_message("fork fail", prgm);
 		return (-1);
+	}
 	else if (pid == 0)
 	{
 		execve(prgm, argv, env);
