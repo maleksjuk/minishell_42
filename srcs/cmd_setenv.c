@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 12:58:38 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/28 13:38:50 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/01 13:41:44 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**new_array_env(char **env, int i, char *str)
 	char	**env_new;
 	int		j;
 
-	if (!(env_new = set_array_2(i + 3)))
+	if (!(env_new = set_array_2(i + 1)))
 		return (env);
 	i = -1;
 	while (env[++i] && !ft_strequ(env[i], ""))

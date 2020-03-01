@@ -6,13 +6,13 @@
 #    By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/24 18:49:21 by obanshee          #+#    #+#              #
-#    Updated: 2020/03/01 11:50:34 by obanshee         ###   ########.fr        #
+#    Updated: 2020/03/01 13:29:57 by obanshee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 LIBFTPRINTF_PATH = libftprintf/
 LIBFTPRINTF = libftprintf/libftprintf.a
