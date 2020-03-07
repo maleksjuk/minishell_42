@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/01 13:39:25 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/07 12:25:53 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**cmd_unsetenv(char *name, char **env)
 	i = 0;
 	while (env[i])
 		i++;
-	if (!(env_new = set_array_2(i)))
+	if (!(env_new = set_array_2(i - 1)))
 		return (env);
 	i = -1;
 	j = 0;

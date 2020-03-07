@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/01 12:00:50 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/07 12:45:32 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*sml_tilda(char *cmd, char **env, int nbr);
 /*
 **  signal.c
 */
-void    cmd_listener(int sig);
-void    main_listener(int sig);
+void	cmd_listener(int sig);
+void	main_listener(int sig);
 
 #endif

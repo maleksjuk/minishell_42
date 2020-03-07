@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 12:58:38 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/01 13:41:44 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/07 12:33:38 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ char	**new_array_env(char **env, int i, char *str)
 		return (env);
 	i = -1;
 	while (env[++i] && !ft_strequ(env[i], ""))
-	{
 		env_new[i] = ft_strdup(env[i]);
-		free(env[i]);
-	}
+	i = 0;
+	while (env[i])
+		free(env[i++]);
 	free(env);
 	env_new[i] = ft_strdup(str);
 	if (!ft_strchr(env_new[i], '='))
@@ -116,6 +116,7 @@ char	**cmd_setenv(char *str, char **env)
 			flag = 1;
 			break ;
 		}
+	free(key);
 	if (flag)
 		env_new = rewrite_var_env(env, i, str);
 	else

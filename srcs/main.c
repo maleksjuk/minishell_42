@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/01 12:00:42 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/07 11:59:01 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int		main(int argc, char **argv, char **envp)
 	{
 		signal(SIGINT, main_listener);
 		ft_printf("---minishell$ ");
-		bufer = ft_strnew(LEN_PATH);
 		get_next_line(0, &bufer);
 		if (!ft_strequ(bufer, ""))
 		{

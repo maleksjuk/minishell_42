@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 09:57:50 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/01 13:36:25 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/07 12:27:41 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 char	**set_array_2(int len)
 {
 	char	**array;
-	// int		i;
+	int		i;
 
 	if (!(array = (char **)malloc(sizeof(char *) * len)))
 		return (NULL);
-	// i = 0;
-	// while (i < len)
-	// 	array[i++] = NULL;
+	i = 0;
+	while (i < len)
+		array[i++] = NULL;
 	array[len - 1] = NULL;
 	return (array);
 }

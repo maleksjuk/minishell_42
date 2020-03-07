@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/28 12:03:01 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/03/07 12:05:50 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int		sml_dollar_check(char *cmd, char *str, char **env)
 	if (!tmp)
 		return (-1);
 	ft_strncpy(str, tmp, ft_strlen(tmp));
-	return (ft_strlen(tmp));
+	free(name);
+	i = ft_strlen(tmp);
+	free(tmp);
+	return (i);
 }
 
 void	helper_dollar(char *cmd, int *i, int *j, int len)
