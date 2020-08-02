@@ -12,13 +12,13 @@
 
 #include "../includes/minishell.h"
 
-char	*users_tilda(char *cmd, char **env)
+char	*users_tilda(char *cmd, t_env *env)
 {
 	int		i;
 	char	*user;
 	char	*home;
 
-	home = var_from_env(env, "HOME");
+	home = value_from_env(env, "HOME");
 	i = ft_strlen(home) - 1;
 	while (home[i] && home[i] != '/')
 		home[i--] = '\0';
@@ -50,7 +50,7 @@ int		prepate_to_return(char *tmp, char *cmd)
 	return (i);
 }
 
-int		sml_tilda_check(char *cmd, char *str, char **env)
+int		sml_tilda_check(char *cmd, char *str, t_env *env)
 {
 	char	*tmp;
 
@@ -58,11 +58,11 @@ int		sml_tilda_check(char *cmd, char *str, char **env)
 	if (!cmd)
 		return (0);
 	if (cmd[1] == '+')
-		tmp = var_from_env(env, "PWD");
+		tmp = value_from_env(env, "PWD");
 	else if (cmd[1] == '-')
-		tmp = var_from_env(env, "OLDPWD");
+		tmp = value_from_env(env, "OLDPWD");
 	else if (!cmd[1] || cmd[1] == '/' || cmd[1] == ' ' || cmd[1] == ';')
-		tmp = var_from_env(env, "HOME");
+		tmp = value_from_env(env, "HOME");
 	else if (ft_isalpha(cmd[1]))
 	{
 		tmp = users_tilda(&cmd[1], env);
@@ -90,7 +90,7 @@ int		helper_tilda(char c, int *quote, char *cmd, int i)
 	return (0);
 }
 
-char	*sml_tilda(char *cmd, char **env, int nbr)
+char	*sml_tilda(char *cmd, t_env *env, int nbr)
 {
 	char	*str;
 	int		i;

@@ -53,73 +53,35 @@ char	*get_key_from_str(char *str)
 	return (key);
 }
 
-char	**rewrite_var_env(char **env, int num, char *str)
+void	cmd_setenv(char *str, t_env *env)
 {
-	char	*new_var;
-	int		i;
-
-	new_var = ft_strdup(str);
-	if (!ft_strchr(new_var, '='))
-	{
-		i = 0;
-		while (new_var[i] != ' ')
-			i++;
-		new_var[i] = '=';
-	}
-	free(env[num]);
-	env[num] = new_var;
-	return (env);
-}
-
-char	**new_array_env(char **env, int i, char *str)
-{
-	char	**env_new;
-	int		j;
-
-	if (!(env_new = set_array_2(i + 1)))
-		return (env);
-	i = -1;
-	while (env[++i] && !ft_strequ(env[i], ""))
-		env_new[i] = ft_strdup(env[i]);
-	i = 0;
-	while (env[i])
-		free(env[i++]);
-	free(env);
-	env_new[i] = ft_strdup(str);
-	if (!ft_strchr(env_new[i], '='))
-	{
-		j = 0;
-		while (env_new[i][j] != ' ')
-			j++;
-		env_new[i][j] = '=';
-	}
-	return (env_new);
-}
-
-char	**cmd_setenv(char *str, char **env)
-{
-	char	**env_new;
-	int		i;
+	t_env	*env_new;
 	char	*key;
 	int		flag;
 
-	if (!env)
-		return (NULL);
-	if (check_input_setenv(str))
-		return (env);
+	if (!env || check_input_setenv(str))
+		return ;
 	key = get_key_from_str(str);
-	i = -1;
 	flag = 0;
-	while (env[++i])
-		if (ft_strnequ(env[i], key, ft_strlen(key)))
+	while (env)
+	{
+		if (ft_strequ(env->key, key))
 		{
+			free(env->str);
+			env->str = ft_strdup(str);
+			free(env->value);
+			env->value = ft_strdup(str + ft_strlen(key) + 1);
 			flag = 1;
 			break ;
 		}
+		if (!(env->next))
+			break;
+		env = env->next;
+	}
 	free(key);
-	if (flag)
-		env_new = rewrite_var_env(env, i, str);
-	else
-		env_new = new_array_env(env, i, str);
-	return (env_new);
+	if (!flag)
+	{
+		env_new = create_one_env(str);
+		env->next = env_new;
+	}
 }

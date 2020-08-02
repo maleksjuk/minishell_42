@@ -26,20 +26,21 @@ char	**set_array_2(int len)
 	return (array);
 }
 
-char	*var_from_env(char **env, char *name)
+char	*value_from_env(t_env *env, char *name)
 {
-	char	*var;
-	int		i;
+	char	*value;
 
-	i = -1;
-	while (env[++i])
-		if (ft_strnequ(env[i], name, ft_strlen(name)))
-			if (env[i][ft_strlen(name)] == '=')
-				break ;
-	if (!env[i])
-		return (NULL);
-	var = ft_strdup(env[i] + ft_strlen(name) + 1);
-	return (var);
+	value = NULL;
+	while (env)
+	{
+		if (ft_strequ(env->key, name))
+		{
+			value = ft_strdup(env->value);
+			break;
+		}
+		env = env->next;
+	}
+	return (value);
 }
 
 char	**var_to_env(char **env, char *name, char *var)

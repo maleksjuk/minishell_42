@@ -12,13 +12,12 @@
 
 #include "../includes/minishell.h"
 
-char	*cmd_program(char *prgm, char **env)
+char	*cmd_program(char *prgm, char *path_env)
 {
 	char		*path;
 	char		**path_array;
 	struct stat	about;
 	int			i;
-	char		*var_path;
 
 	if (ft_strchr(prgm, '/'))
 		if (!access(prgm, F_OK))
@@ -27,10 +26,10 @@ char	*cmd_program(char *prgm, char **env)
 			if (!access(prgm, X_OK) && S_ISREG(about.st_mode))
 				return (ft_strdup(prgm));
 		}
-	if (!(var_path = var_from_env(env, "PATH")))
+	if (!path_env)
 		return (NULL);
-	path_array = ft_strsplit(var_path, ':');
-	free(var_path);
+	path_array = ft_strsplit(path_env, ':');
+	free(path_env);
 	path = path_program_from_env(prgm, path_array);
 	i = -1;
 	while (path_array[++i])
@@ -109,10 +108,45 @@ char	**cmd_arguments(char *cmd)
 	return (arguments);
 }
 
-int		cmd_system(char *prgm, char **argv, char **env)
+char	**create_env_array(t_env *env)
+{
+	char	**envp;
+	t_env	*current;
+	int		len;
+
+	current = env;
+	len = 0;
+	while (current)
+	{
+		current = current->next;
+		len++;
+	}
+	envp = (char **)malloc(sizeof(char *) * (len + 1));
+	len = 0;
+	while (env)
+	{
+		envp[len++] = ft_strdup(env->str);
+		env = env->next;
+	}
+	envp[len] = NULL;
+	return (envp);
+}
+
+void	delete_env_array(char **envp)
+{
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+		free(envp[i]);
+	free(envp);
+}
+
+int		cmd_system(char *prgm, char **argv, t_env *env)
 {
 	pid_t	pid;
 	int		status;
+	char	**envp;
 
 	pid = fork();
 	signal(SIGINT, cmd_listener);
@@ -123,7 +157,9 @@ int		cmd_system(char *prgm, char **argv, char **env)
 	}
 	else if (pid == 0)
 	{
-		execve(prgm, argv, env);
+		envp = create_env_array(env);
+		execve(prgm, argv, envp);
+		delete_env_array(envp);
 		exit(-1);
 	}
 	if (waitpid(pid, &status, 0))

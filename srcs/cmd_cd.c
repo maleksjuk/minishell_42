@@ -39,32 +39,38 @@ char	*helper_cd(char *path, char *current_path, int *i)
 	return (search_path);
 }
 
-char	**to_return_cd(char ***env, char *current)
+void	change_one_env(t_env *env, char *value)
 {
-	free(current);
-	return (*env);
+	char	*new_str;
+
+	free(env->value);
+	// free(env->str);
+	env->value = ft_strdup(value);
+	new_str = ft_strjoin(env->key, "=");
+	env->str = ft_strjoin(new_str, value);
+	free(new_str);
 }
 
-char	***rewrite_env_cd(char ***env, char *old_current)
+void	cd_change_env(t_env *env, char *old_dir)
 {
-	char	*tmp;
-	char	*new_current;
+	char	*new_dir;
 
-	*env = cmd_unsetenv("OLDPWD", *env);
-	tmp = ft_strjoin("OLDPWD=", old_current);
-	*env = cmd_setenv(tmp, *env);
-	free(tmp);
-	*env = cmd_unsetenv("PWD", *env);
-	new_current = ft_strnew(LEN_PATH);
-	new_current = getcwd(new_current, LEN_PATH);
-	tmp = ft_strjoin("PWD=", new_current);
-	*env = cmd_setenv(tmp, *env);
-	free(tmp);
-	free(new_current);
-	return (env);
+	new_dir = ft_strnew(LEN_PATH);
+	new_dir = getcwd(new_dir, LEN_PATH);
+
+	while (env)
+	{
+		if (ft_strequ(env->key, "PWD"))
+			change_one_env(env, new_dir);
+		else if (ft_strequ(env->key, "OLDPWD"))
+			change_one_env(env, old_dir);
+		env = env->next;
+	}
+
+	free(new_dir);
 }
 
-char	**cmd_cd(char ***env, char *path)
+void	cmd_cd(t_env *env, char *path)
 {
 	char	*current_path;
 	char	*search_path;
@@ -74,16 +80,15 @@ char	**cmd_cd(char ***env, char *path)
 	current_path = getcwd(current_path, LEN_PATH);
 	flag = 0;
 	if (!path)
-		search_path = var_from_env(*env, "HOME");
+		search_path = value_from_env(env, "HOME");
 	else if (ft_strequ(path, "-"))
-		search_path = var_from_env(*env, "OLDPWD");
+		search_path = value_from_env(env, "OLDPWD");
 	else if (!(search_path = helper_cd(path, current_path, &flag)))
-		return (to_return_cd(env, current_path));
+		flag = 1;
 	if (!chdir(search_path))
-		env = rewrite_env_cd(env, current_path);
+		cd_change_env(env, current_path);
 	else if (!flag)
 		error_message("error", "cd");
 	free(current_path);
 	free(search_path);
-	return (*env);
 }

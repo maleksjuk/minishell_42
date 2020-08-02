@@ -14,20 +14,23 @@
 
 int		cmd_echo(char *str)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*output;
 
 	i = 0;
 	j = 0;
-	while (str[i + j])
+	output = ft_strdup(str);
+	while (output[i + j])
 	{
-		if (str[i + j] == '"')
+		if (output[i + j] == '"')
 			j++;
-		str[i] = str[i + j];
+		output[i] = output[i + j];
 		i++;
 	}
-	str[i] = '\0';
-	ft_printf("%s\n", str);
+	output[i] = '\0';
+	ft_printf("%s\n", output);
+	free(output);
 	return (0);
 }
 
@@ -44,45 +47,33 @@ int		cmd_pwd(void)
 	return (0);
 }
 
-int		cmd_env(char **env)
+int		cmd_env(t_env *env)
 {
-	int	i;
-
-	if (!env)
-		return (0);
-	i = 0;
-	while (env[i])
+	while (env)
 	{
-		ft_printf("%s\n", env[i]);
-		i++;
+		ft_printf("%s\n", env->str);
+		env = env->next;
 	}
 	return (0);
 }
 
-char	**cmd_unsetenv(char *name, char **env)
+void	cmd_unsetenv(char *name, t_env *env)
 {
-	char	**env_new;
-	int		i;
-	int		j;
-	size_t	len;
+	t_env	*prev;
 
-	if (!(len = ft_strlen(name)))
-		return (env);
-	i = 0;
-	while (env[i])
-		i++;
-	if (!(env_new = set_array_2(i - 1)))
-		return (env);
-	i = -1;
-	j = 0;
-	while (env[++i])
+	prev = env;
+	while (env)
 	{
-		if (!(ft_strequ(env[i], name)))
-			if (!(ft_strnequ(env[i], name, len) &&
-				ft_strlen(env[i]) > len && env[i][len] == '='))
-				env_new[j++] = ft_strdup(env[i]);
-		free(env[i]);
+		if (ft_strequ(env->key, name))
+		{
+			prev->next = env->next;
+			free(env->key);
+			free(env->value);
+			free(env->str);
+			free(env);
+			break;
+		}
+		prev = env;
+		env = env->next;
 	}
-	free(env);
-	return (env_new);
 }

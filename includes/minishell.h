@@ -33,20 +33,29 @@
 
 # define LEN_PATH 1024
 
+typedef struct	s_env
+{
+	char			*key;
+	char			*value;
+	char			*str;
+	struct s_env	*next;
+}				t_env;
+
 /*
 **	main_functions.c
 */
 int		error_message(char *str, char *file);
-int		cmd_more(char *cmd, char **env);
-int		check_cmd(char *cmd, char ***env);
-char	**get_env(char **envp);
-void	cmd_exit(char **env, char *bufer);
+int		cmd_more(char *cmd, t_env *env);
+int		check_cmd(char *cmd, t_env *env);
+t_env	*get_env(char **envp);
+void	cmd_exit(t_env *env, char *bufer);
+t_env	*create_one_env(char *str);
 
 /*
 **	lib_minishell.c
 */
 char	**set_array_2(int len);
-char	*var_from_env(char **env, char *name);
+char	*value_from_env(t_env *env, char *name);
 char	**var_to_env(char **env, char *name, char *var);
 char	*ft_strtrim_into(char *cmd);
 char	*path_program_from_env(char *prgm, char **path_array);
@@ -56,36 +65,36 @@ char	*path_program_from_env(char *prgm, char **path_array);
 */
 int		cmd_echo(char *str);
 int		cmd_pwd(void);
-int		cmd_env(char **env);
-char	**cmd_unsetenv(char *name, char **env);
+int		cmd_env(t_env *env);
+void	cmd_unsetenv(char *name, t_env *env);
 
 /*
 **  cmd_setenv.c
 */
-char	**cmd_setenv(char *str, char **env);
+void	cmd_setenv(char *str, t_env *env);
 
 /*
 **  cmd_cd.c
 */
-char	**cmd_cd(char ***env, char *path);
+void	cmd_cd(t_env *env, char *path);
 
 /*
 **  cmd_more.c
 */
-char	*cmd_program(char *prgm, char **env);
+char	*cmd_program(char *prgm, char *path_env);
 char	**cmd_arguments(char *cmd);
-int		cmd_system(char *prgm, char **argv, char **env);
+int		cmd_system(char *prgm, char **argv, t_env *env);
 
 /*
 **  symbols.c
 */
-char	*sml_dollar(char *cmd, char **env, int nbr);
-char	*check_symbols(char *cmd, char **env);
+char	*sml_dollar(char *cmd, t_env *env, int nbr);
+char	*check_symbols(char *cmd, t_env *env);
 
 /*
 **  sml_tilda.c
 */
-char	*sml_tilda(char *cmd, char **env, int nbr);
+char	*sml_tilda(char *cmd, t_env *env, int nbr);
 
 /*
 **  signal.c

@@ -12,10 +12,10 @@
 
 #include "../includes/minishell.h"
 
-int		sml_dollar_check(char *cmd, char *str, char **env)
+int		sml_dollar_check(char *cmd, char *str, t_env *env)
 {
 	int		i;
-	char	*tmp;
+	char	*value;
 	char	*name;
 
 	i = 1;
@@ -23,13 +23,13 @@ int		sml_dollar_check(char *cmd, char *str, char **env)
 		i++;
 	name = ft_strnew(i);
 	ft_strncpy(name, cmd + 1, i - 1);
-	tmp = var_from_env(env, name);
-	if (!tmp)
+	value = value_from_env(env, name);
+	if (!value)
 		return (-1);
-	ft_strncpy(str, tmp, ft_strlen(tmp));
+	ft_strncpy(str, value, ft_strlen(value));
+	i = ft_strlen(value);
 	free(name);
-	i = ft_strlen(tmp);
-	free(tmp);
+	free(value);
 	return (i);
 }
 
@@ -45,7 +45,7 @@ void	helper_dollar(char *cmd, int *i, int *j, int len)
 	(*i)--;
 }
 
-char	*sml_dollar(char *cmd, char **env, int nbr)
+char	*sml_dollar(char *cmd, t_env *env, int nbr)
 {
 	char	*str;
 	int		i;
@@ -86,29 +86,29 @@ int		nbr_sml(char *str, char c)
 	return (len);
 }
 
-char	*check_symbols(char *cmd, char **env)
+char	*check_symbols(char *cmd, t_env *env)
 {
 	char	*str;
-	char	*tmp;
+	char	*new_str;
 
 	str = ft_strtrim_into(cmd);
 	if (!str)
 		return (NULL);
 	if (ft_strchr(str, '~'))
 	{
-		tmp = str;
-		str = sml_tilda(str, env, nbr_sml(str, '~'));
-		if (!str)
+		new_str = sml_tilda(str, env, nbr_sml(str, '~'));
+		if (!new_str)
 			return (NULL);
-		free(tmp);
+		free(str);
+		str = new_str;
 	}
 	if (ft_strchr(str, '$'))
 	{
-		tmp = str;
-		str = sml_dollar(str, env, nbr_sml(str, '$'));
-		if (!str)
+		new_str = sml_dollar(str, env, nbr_sml(str, '$'));
+		if (!new_str)
 			return (NULL);
-		free(tmp);
+		free(str);
+		str = new_str;
 	}
 	return (str);
 }

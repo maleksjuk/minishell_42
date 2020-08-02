@@ -18,14 +18,14 @@ int		error_message(char *str, char *file)
 	return (0);
 }
 
-int		cmd_more(char *cmd, char **env)
+int		cmd_more(char *cmd, t_env *env)
 {
 	char	*prgm;
 	char	**argv;
 	int		i;
 
 	argv = cmd_arguments(cmd);
-	prgm = cmd_program(argv[0], env);
+	prgm = cmd_program(argv[0], value_from_env(env, "PATH"));
 	if (prgm)
 	{
 		cmd_system(prgm, argv, env);
@@ -44,11 +44,11 @@ int		cmd_more(char *cmd, char **env)
 	return (0);
 }
 
-int		check_cmd(char *cmd, char ***env)
+int		check_cmd(char *cmd, t_env *env)
 {
 	char	*str;
 
-	str = check_symbols(cmd, *env);
+	str = check_symbols(cmd, env);
 	if (!str || !*str)
 		return (0);
 	if (ft_strequ(str, "echo") || (ft_strnequ(str, "echo", 4) &&
@@ -56,51 +56,78 @@ int		check_cmd(char *cmd, char ***env)
 		cmd_echo(str + 5);
 	else if (ft_strequ(str, "cd") || (ft_strnequ(str, "cd", 2) &&
 		ft_strlen(str) > 2 && str[2] == ' '))
-		*env = cmd_cd(env, ft_strlen(str) > 2 ? str + 3 : NULL);
+		cmd_cd(env, ft_strlen(str) > 2 ? str + 3 : NULL);
 	else if (ft_strequ(str, "pwd"))
 		cmd_pwd();
 	else if (ft_strequ(str, "env"))
-		cmd_env(*env);
+		cmd_env(env);
 	else if (ft_strequ(str, "setenv") || (ft_strnequ(str, "setenv", 6) &&
 		ft_strlen(str) > 6 && str[6] == ' '))
-		*env = cmd_setenv(str + 7, *env);
+		cmd_setenv(str + 7, env);
 	else if (ft_strequ(str, "unsetenv") || (ft_strnequ(str, "unsetenv", 8) &&
 		ft_strlen(str) > 8 && str[8] == ' '))
-		*env = cmd_unsetenv(str + 9, *env);
+		cmd_unsetenv(str + 9, env);
 	else
-		cmd_more(str, *env);
+		cmd_more(str, env);
 	free(str);
 	return (0);
 }
 
-char	**get_env(char **envp)
+t_env	*create_one_env(char *str)
 {
-	char	**env;
-	int		len;
+	t_env	*one;
+	int		i;
 
-	if (!envp)
-		return (NULL);
-	len = 0;
-	while (envp[len])
-		len++;
-	env = set_array_2(len + 1);
-	if (!env)
-		return (NULL);
-	len = -1;
-	while (envp[++len])
-		env[len] = ft_strdup(envp[len]);
-	return (env);
+	one = (t_env *)malloc(sizeof(t_env *));
+	one->str = ft_strdup(str);
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	one->key = ft_strnew(i);
+	one->key = ft_strncpy(one->key, str, i);
+	one->value = ft_strdup(&(str[i + 1]));
+	one->next = NULL;
+	return (one);
 }
 
-void	cmd_exit(char **env, char *bufer)
+t_env	*get_env(char **envp)
 {
-	int	i;
+	t_env	*env_begin;
+	t_env	*env_prev;
+	t_env	*env_curr;
+	int		len;
 
-	ft_printf("exit\n* * * MINISHELL [end] * * *\n");
+	if (!envp || !envp[0])
+		return (NULL);
+	env_begin = create_one_env(envp[0]);
+	env_prev = env_begin;
+	len = 0;
+	while (envp[++len])
+	{
+		env_curr = create_one_env(envp[len]);
+		env_prev->next = env_curr;
+		env_prev = env_curr;
+	}
+	return (env_begin);
+}
+
+void	cmd_exit(t_env *env, char *bufer)
+{
+	// t_env	*prev;
+
 	free(bufer);
-	i = 0;
-	while (env[i])
-		free(env[i++]);
-	free(env);
+	while (env)
+	{
+		// if (env->key)
+		// 	free(env->key);
+		// if (env->value)
+		// 	free(env->value);
+		// if (env->str)
+		// 	free(env->str);
+		// prev = env;
+		env = env->next; 
+		// free(prev);
+	}
+	ft_printf("exit\n\033[1;7;32m* * * MINISHELL [exit] * * *\033[0m\n");
 	exit(0);
 }
