@@ -32,11 +32,9 @@ int		check_input_setenv(char *str)
 		if (!quote && str[i] == '=')
 			equal++;
 	}
-	if (!((equal && !space) || (space && !equal)))
-		error_message("setenv", "error numbers of arguments");
-	else
-		return (0);
-	return (1);
+	if (!equal)
+		return (!error_message("setenv", "error numbers of arguments"));
+	return (0);
 }
 
 char	*get_key_from_str(char *str)
@@ -81,7 +79,7 @@ void	cmd_setenv(char *str, t_env *env)
 	free(key);
 	if (!flag)
 	{
-		env_new = create_one_env(str);
-		env->next = env_new;
+		if ((env_new = create_one_env(str)))
+			env->next = env_new;
 	}
 }

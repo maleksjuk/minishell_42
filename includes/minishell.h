@@ -46,10 +46,11 @@ typedef struct	s_env
 */
 int		error_message(char *str, char *file);
 int		cmd_more(char *cmd, t_env *env);
-int		check_cmd(char *cmd, t_env *env);
+int		cmd_processing(char *cmd, t_env *env);
 t_env	*get_env(char **envp);
-void	cmd_exit(t_env *env, char *bufer);
+void	cmd_exit(t_env *env);
 t_env	*create_one_env(char *str);
+t_env	*free_one_env(t_env *one);
 
 /*
 **	lib_minishell.c
@@ -66,7 +67,7 @@ char	*path_program_from_env(char *prgm, char **path_array);
 int		cmd_echo(char *str);
 int		cmd_pwd(void);
 int		cmd_env(t_env *env);
-void	cmd_unsetenv(char *name, t_env *env);
+void	cmd_unsetenv(char *key, t_env *env);
 
 /*
 **  cmd_setenv.c
@@ -89,7 +90,7 @@ int		cmd_system(char *prgm, char **argv, t_env *env);
 **  symbols.c
 */
 char	*sml_dollar(char *cmd, t_env *env, int nbr);
-char	*check_symbols(char *cmd, t_env *env);
+char	*get_full_cmd(char *cmd, t_env *env);
 
 /*
 **  sml_tilda.c

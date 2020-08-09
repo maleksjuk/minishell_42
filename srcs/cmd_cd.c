@@ -44,7 +44,7 @@ void	change_one_env(t_env *env, char *value)
 	char	*new_str;
 
 	free(env->value);
-	// free(env->str);
+	free(env->str);
 	env->value = ft_strdup(value);
 	new_str = ft_strjoin(env->key, "=");
 	env->str = ft_strjoin(new_str, value);

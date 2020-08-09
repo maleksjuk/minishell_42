@@ -41,7 +41,7 @@ int		cmd_pwd(void)
 	path = ft_strnew(LEN_PATH);
 	path = getcwd(path, LEN_PATH);
 	if (!path)
-		ft_printf("null\n");
+		error_message("getcwd", "error");
 	ft_printf("%s\n", path);
 	free(path);
 	return (0);
@@ -57,21 +57,18 @@ int		cmd_env(t_env *env)
 	return (0);
 }
 
-void	cmd_unsetenv(char *name, t_env *env)
+void	cmd_unsetenv(char *key, t_env *env)
 {
 	t_env	*prev;
 
 	prev = env;
 	while (env)
 	{
-		if (ft_strequ(env->key, name))
+		if (ft_strequ(env->key, key))
 		{
 			prev->next = env->next;
-			free(env->key);
-			free(env->value);
-			free(env->str);
-			free(env);
-			break;
+			free_one_env(env);
+			break ;
 		}
 		prev = env;
 		env = env->next;

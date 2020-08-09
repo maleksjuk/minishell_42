@@ -86,7 +86,7 @@ int		nbr_sml(char *str, char c)
 	return (len);
 }
 
-char	*check_symbols(char *cmd, t_env *env)
+char	*get_full_cmd(char *cmd, t_env *env)
 {
 	char	*str;
 	char	*new_str;

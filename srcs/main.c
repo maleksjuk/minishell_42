@@ -12,17 +12,24 @@
 
 #include "../includes/minishell.h"
 
-void	separator(char *bufer, t_env *env)
+void	cmd_input(char *bufer, t_env *env, int *exit_flag)
 {
 	char	**cmd_list;
 	int		i;
 
 	cmd_list = ft_strsplit(bufer, ';');
-	i = -1;
-	while (cmd_list[++i])
+	i = 0;
+	while (cmd_list[i])
 	{
-		check_cmd(cmd_list[i], env);
+		if (ft_strequ(cmd_list[i], "exit"))
+		{
+			*exit_flag = 1;
+			break ;
+		}
+		if (!*exit_flag)
+			cmd_processing(cmd_list[i], env);
 		free(cmd_list[i]);
+		i++;
 	}
 	free(cmd_list);
 }
@@ -31,7 +38,9 @@ int		main(int argc, char **argv, char **envp)
 {
 	char	*bufer;
 	t_env	*env;
+	int		exit_flag;
 
+	exit_flag = 0;
 	env = get_env(envp);
 	if (!env)
 		return (error_message("error", "null env"));
@@ -42,14 +51,12 @@ int		main(int argc, char **argv, char **envp)
 		ft_printf("\e[1;34m---minishell$ \e[0m");
 		get_next_line(0, &bufer);
 		if (!ft_strequ(bufer, ""))
-		{
-			if (ft_strequ(bufer, "exit") || (ft_strnequ(bufer, "exit", 4) &&
-				ft_strlen(bufer) > 4 && bufer[4] == ' '))
-				cmd_exit(env, bufer);
-			separator(bufer, env);
-		}
+			cmd_input(bufer, env, &exit_flag);
 		free(bufer);
+		if (exit_flag)
+			break ;
 	}
+	cmd_exit(env);
 	return (0);
 	(void)argc;
 	(void)argv;
