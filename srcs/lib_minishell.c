@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 09:57:50 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/07 12:27:41 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/16 14:30:27 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*value_from_env(t_env *env, char *name)
 		if (ft_strequ(env->key, name))
 		{
 			value = ft_strdup(env->value);
-			break;
+			break ;
 		}
 		env = env->next;
 	}

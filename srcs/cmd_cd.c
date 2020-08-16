@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 12:40:11 by obanshee          #+#    #+#             */
-/*   Updated: 2020/02/28 11:13:26 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/16 14:30:08 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	cd_change_env(t_env *env, char *old_dir)
 
 	new_dir = ft_strnew(LEN_PATH);
 	new_dir = getcwd(new_dir, LEN_PATH);
-
 	while (env)
 	{
 		if (ft_strequ(env->key, "PWD"))
@@ -66,7 +65,6 @@ void	cd_change_env(t_env *env, char *old_dir)
 			change_one_env(env, old_dir);
 		env = env->next;
 	}
-
 	free(new_dir);
 }
 

@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 12:58:38 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/07 12:33:38 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/16 14:33:48 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ int		check_input_setenv(char *str)
 	return (0);
 }
 
+void	check_flag_setenv(int flag, char *str, t_env *env)
+{
+	t_env	*env_new;
+
+	if (!flag)
+	{
+		if ((env_new = create_one_env(str)))
+			env->next = env_new;
+	}
+}
+
 void	cmd_setenv(char *str, t_env *env)
 {
 	t_env	*env_new;
@@ -59,13 +70,9 @@ void	cmd_setenv(char *str, t_env *env)
 			break ;
 		}
 		if (!(env->next))
-			break;
+			break ;
 		env = env->next;
 	}
 	free(key);
-	if (!flag)
-	{
-		if ((env_new = create_one_env(str)))
-			env->next = env_new;
-	}
+	check_flag_setenv(flag, str, env);
 }

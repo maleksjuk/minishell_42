@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/01 13:38:20 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/16 14:29:01 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	cmd_exit(t_env *env)
 	{
 		next = env->next;
 		free_one_env(env);
-		env = next; 
+		env = next;
 	}
 	ft_printf("exit\n\033[1;7;32m* * * MINISHELL [exit] * * *\033[0m\n");
 	exit(0);
