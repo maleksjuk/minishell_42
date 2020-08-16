@@ -26,6 +26,20 @@ char	**set_array_2(int len)
 	return (array);
 }
 
+char	*get_name_or_key(char *str, char stop)
+{
+	char	*prgm;
+	int		len;
+
+	len = 0;
+	while (str[len] && (str[len] != ' ' || str[len] != stop))
+		len++;
+	if (!(prgm = ft_strnew(len)))
+		return (NULL);
+	ft_strncpy(prgm, str, len);
+	return (prgm);
+}
+
 char	*value_from_env(t_env *env, char *name)
 {
 	char	*value;
@@ -41,21 +55,6 @@ char	*value_from_env(t_env *env, char *name)
 		env = env->next;
 	}
 	return (value);
-}
-
-char	**var_to_env(char **env, char *name, char *var)
-{
-	int	i;
-
-	i = -1;
-	while (env[++i])
-		if (ft_strnequ(env[i], name, ft_strlen(name)))
-			break ;
-	if (!env[i])
-		return (env);
-	free(env[i]);
-	env[i] = ft_strjoin(name, var);
-	return (env);
 }
 
 char	*ft_strtrim_into(char *cmd)
@@ -87,7 +86,7 @@ char	*ft_strtrim_into(char *cmd)
 	return (dst);
 }
 
-char	*path_program_from_env(char *prgm, char **path_array)
+char	*get_prgm_path_env(char *prgm, char **path_array)
 {
 	char		*path;
 	int			i;

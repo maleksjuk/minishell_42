@@ -12,7 +12,7 @@
 
 NAME = minishell
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3
 
 LIBFTPRINTF_PATH = libftprintf/
 LIBFTPRINTF = libftprintf/libftprintf.a

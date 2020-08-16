@@ -47,19 +47,16 @@ typedef struct	s_env
 int		error_message(char *str, char *file);
 int		cmd_more(char *cmd, t_env *env);
 int		cmd_processing(char *cmd, t_env *env);
-t_env	*get_env(char **envp);
 void	cmd_exit(t_env *env);
-t_env	*create_one_env(char *str);
-t_env	*free_one_env(t_env *one);
 
 /*
 **	lib_minishell.c
 */
 char	**set_array_2(int len);
+char	*get_name_or_key(char *str, char stop);
 char	*value_from_env(t_env *env, char *name);
-char	**var_to_env(char **env, char *name, char *var);
 char	*ft_strtrim_into(char *cmd);
-char	*path_program_from_env(char *prgm, char **path_array);
+char	*get_prgm_path_env(char *prgm, char **path_array);
 
 /*
 **  cmd_base.c
@@ -102,5 +99,14 @@ char	*sml_tilda(char *cmd, t_env *env, int nbr);
 */
 void	cmd_listener(int sig);
 void	main_listener(int sig);
+
+/*
+**	env.c
+*/
+char	**create_env_array(t_env *env);
+void	delete_env_array(char **envp);
+t_env	*free_one_env(t_env *one);
+t_env	*create_one_env(char *str);
+t_env	*get_env(char **envp);
 
 #endif

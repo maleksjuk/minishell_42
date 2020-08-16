@@ -37,20 +37,6 @@ int		check_input_setenv(char *str)
 	return (0);
 }
 
-char	*get_key_from_str(char *str)
-{
-	char	*key;
-	int		i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i] == ' ' || str[i] == '=')
-			break ;
-	key = ft_strnew(i + 1);
-	ft_strncpy(key, str, i);
-	return (key);
-}
-
 void	cmd_setenv(char *str, t_env *env)
 {
 	t_env	*env_new;
@@ -59,7 +45,7 @@ void	cmd_setenv(char *str, t_env *env)
 
 	if (!env || check_input_setenv(str))
 		return ;
-	key = get_key_from_str(str);
+	key = get_name_or_key(str, '=');
 	flag = 0;
 	while (env)
 	{

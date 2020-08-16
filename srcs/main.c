@@ -12,6 +12,13 @@
 
 #include "../includes/minishell.h"
 
+int		check_exit(char *str)
+{
+	while (*str && (*str == ' ' || *str == '\t'))
+		str++;
+	return (ft_strnequ(str, "exit", 4));
+}
+
 void	cmd_input(char *bufer, t_env *env, int *exit_flag)
 {
 	char	**cmd_list;
@@ -21,11 +28,8 @@ void	cmd_input(char *bufer, t_env *env, int *exit_flag)
 	i = 0;
 	while (cmd_list[i])
 	{
-		if (ft_strequ(cmd_list[i], "exit"))
-		{
+		if (!*exit_flag && check_exit(cmd_list[i]))
 			*exit_flag = 1;
-			break ;
-		}
 		if (!*exit_flag)
 			cmd_processing(cmd_list[i], env);
 		free(cmd_list[i]);
@@ -54,9 +58,8 @@ int		main(int argc, char **argv, char **envp)
 			cmd_input(bufer, env, &exit_flag);
 		free(bufer);
 		if (exit_flag)
-			break ;
+			cmd_exit(env);
 	}
-	cmd_exit(env);
 	return (0);
 	(void)argc;
 	(void)argv;
