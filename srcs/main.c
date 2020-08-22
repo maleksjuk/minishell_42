@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/07 11:59:01 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/22 14:16:20 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,28 @@ void	cmd_input(char *bufer, t_env *env, int *exit_flag)
 	free(cmd_list);
 }
 
+char	*get_cmd(int fd)
+{
+	char	*bufer;
+	int		buf_size;
+	char	*smbl;
+	int		i;
+
+	buf_size = 1024;
+	bufer = ft_strnew(buf_size);
+	smbl = ft_strnew(1);
+	i = 0;
+	while (read(fd, smbl, 1) > 0)
+	{
+		if (*smbl == '\n')
+			break ;
+		bufer[i] = *smbl;
+		i++;
+	}
+	free(smbl);
+	return (bufer);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	char	*bufer;
@@ -52,8 +74,8 @@ int		main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal(SIGINT, main_listener);
-		ft_printf("\e[1;34m---minishell$ \e[0m");
-		get_next_line(0, &bufer);
+		ft_printf("\033[1;34m---minishell$ \033[0m");
+		bufer = get_cmd(0);
 		if (!ft_strequ(bufer, ""))
 			cmd_input(bufer, env, &exit_flag);
 		free(bufer);
