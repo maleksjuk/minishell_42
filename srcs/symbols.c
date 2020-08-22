@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/07 12:05:50 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/22 17:13:21 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,7 @@ char	*get_full_cmd(char *cmd, t_env *env)
 	str = ft_strtrim_into(cmd);
 	if (!str)
 		return (NULL);
-	if (ft_strchr(str, '~'))
-	{
-		new_str = sml_tilda(str, env, nbr_sml(str, '~'));
-		if (!new_str)
-			return (NULL);
-		free(str);
-		str = new_str;
-	}
-	if (ft_strchr(str, '$'))
-	{
-		new_str = sml_dollar(str, env, nbr_sml(str, '$'));
-		if (!new_str)
-			return (NULL);
-		free(str);
-		str = new_str;
-	}
-	return (str);
+	new_str = check_quotes(str, NULL);
+	free(str);
+	return (new_str);
 }

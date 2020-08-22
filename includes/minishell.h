@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/16 14:34:53 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/22 17:12:40 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ typedef struct		s_env
 	char			*str;
 	struct s_env	*next;
 }					t_env;
+
+/*
+**	main.c
+*/
+char				*get_cmd(int fd);
 
 /*
 **	main_functions.c
@@ -108,5 +113,10 @@ void				delete_env_array(char **envp);
 t_env				*free_one_env(t_env *one);
 t_env				*create_one_env(char *str);
 t_env				*get_env(char **envp);
+
+/*
+**	check_quotes.c
+*/
+char				*check_quotes(char *cmd, int quote_rec[2]);
 
 #endif
