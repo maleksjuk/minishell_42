@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/22 17:12:40 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/23 15:41:22 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,12 @@ t_env				*get_env(char **envp);
 /*
 **	check_quotes.c
 */
-char				*check_quotes(char *cmd, int quote_rec[2]);
+char				*check_quotes(t_env *env, char *cmd, int quote_rec[2]);
+
+/*
+**	get_tilda_or_dollar.c
+*/
+char				*get_tilda(t_env *env, char *str, int *i);
+char				*get_dollar(t_env *env, char *str, int *i);
 
 #endif

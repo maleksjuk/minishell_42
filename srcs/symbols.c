@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 10:45:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/22 17:13:21 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/23 14:54:44 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,29 +72,20 @@ char	*sml_dollar(char *cmd, t_env *env, int nbr)
 	return (str);
 }
 
-int		nbr_sml(char *str, char c)
-{
-	int	len;
-
-	len = 0;
-	while (*str)
-	{
-		if (*str == c)
-			len++;
-		str++;
-	}
-	return (len);
-}
-
 char	*get_full_cmd(char *cmd, t_env *env)
 {
 	char	*str;
 	char	*new_str;
 
-	str = ft_strtrim_into(cmd);
+	str = ft_strtrim(cmd);
 	if (!str)
 		return (NULL);
-	new_str = check_quotes(str, NULL);
+	new_str = ft_strtrim_into(str);
+	free(str);
+	str = new_str;
+	if (!str)
+		return (NULL);
+	new_str = check_quotes(env, str, NULL);
 	free(str);
 	return (new_str);
 }

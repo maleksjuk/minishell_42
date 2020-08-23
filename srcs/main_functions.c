@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/16 14:29:01 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/23 15:42:10 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,24 @@ int		cmd_more(char *cmd, t_env *env)
 	else
 		error_message("command not found", argv[0]);
 	return (0);
+}
+
+char	*get_full_cmd(char *cmd, t_env *env)
+{
+	char	*str;
+	char	*new_str;
+
+	str = ft_strtrim(cmd);
+	if (!str)
+		return (NULL);
+	new_str = ft_strtrim_into(str);
+	free(str);
+	str = new_str;
+	if (!str)
+		return (NULL);
+	new_str = check_quotes(env, str, NULL);
+	free(str);
+	return (new_str);
 }
 
 int		cmd_processing(char *cmd, t_env *env)
