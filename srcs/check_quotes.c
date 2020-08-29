@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 16:55:56 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 15:52:00 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 17:15:53 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,32 +63,37 @@ void	init_quote(int *quote, int *quote_rec)
 	}
 }
 
-void	check_quote_position(char *cmd, char *str, int i[2], int quote[2])
+void	check_quote_position(char *cmd, char *str, int *i, int quote[2])
 {
+	int	flag;
+
+	flag = 0;
 	if (cmd[i[0]] == '\'' && quote[1] == 0)
 	{
 		quote[0] = !quote[0];
+		flag = 1;
 	}
 	else if (cmd[i[0]] == '"' && quote[0] == 0)
 	{
 		quote[1] = !quote[1];
+		flag = 1;
 	}
-	if (cmd[i[0]] != '~' && cmd[i[0]] != '$')	// if symbols repeat -> error
+	if (cmd[i[0]] != '~' && cmd[i[0]] != '$' && !flag)
 		str[i[1]] = cmd[i[0]];
-	// str[i[1]] = cmd[i[0]];
+	if (flag)
+		i[1]--;
 }
 
 char	*check_quotes(t_env *env, char *cmd, int quote_rec[2])
 {
 	char	*str;
-	int		i[2];	// 0 - cmd. 1 - str
+	int		i[2];		// 0 - cmd. 1 - str
 	int		quote[2];	// 0 - once, 1 - twice
 	char	*to_replace;
 	char	*new_str;
 
 	init_quote(quote, quote_rec);
 	str = ft_strnew(ft_strlen(cmd) + 1);
-	// str = ft_strnew(LEN_PATH);
 	i[0] = -1;
 	i[1] = -1;
 	to_replace = NULL;
@@ -112,8 +117,10 @@ char	*check_quotes(t_env *env, char *cmd, int quote_rec[2])
 			str = replace_symbols(str, to_replace, &i[1]);
 			free(to_replace);
 			to_replace = NULL;
-			while (cmd[i[0]] && cmd[i[0]] != ' ')
+			while (cmd[i[0]] && cmd[i[0]] != ' ' && cmd[i[0]] != '"') // check
 				i[0]++;
+			// while (cmd[i[0]] && ft_isalnum(cmd[i[0]]))
+			// 	i[0]++;
 			i[0]--;
 		}
 	}

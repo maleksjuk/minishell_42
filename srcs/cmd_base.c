@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 12:16:04 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 17:08:26 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		cmd_echo(char *str)
 	output = ft_strdup(str);
 	while (output[i[0] + i[1]])
 	{
-		i[1] += check_quote_echo(output[i[0] + i[1]], quote);
+		// i[1] += check_quote_echo(output[i[0] + i[1]], quote);
 		output[i[0]] = output[i[0] + i[1]];
 		i[0]++;
 	}
