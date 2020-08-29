@@ -6,29 +6,45 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 11:08:48 by obanshee          #+#    #+#             */
-/*   Updated: 2020/03/07 12:25:53 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 12:16:04 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int		check_quote_echo(char c, int quote[2])
+{
+	if (c == '\'' && quote[1] == 0)
+	{
+		quote[0] = !quote[0];
+		return (1);
+	}
+	else if (c == '"' && quote[0] == 0)
+	{
+		quote[1] = !quote[1];
+		return (1);
+	}
+	return (0);
+}
+
 int		cmd_echo(char *str)
 {
-	int		i;
-	int		j;
+	int		i[2];
 	char	*output;
+	int		quote[2];
 
-	i = 0;
-	j = 0;
+	i[0] = 0;
+	i[1] = 0;
+	quote[0] = 0;
+	quote[1] = 0;
 	output = ft_strdup(str);
-	while (output[i + j])
+	while (output[i[0] + i[1]])
 	{
-		if (output[i + j] == '"')
-			j++;
-		output[i] = output[i + j];
-		i++;
+		i[1] += check_quote_echo(output[i[0] + i[1]], quote);
+		output[i[0]] = output[i[0] + i[1]];
+		i[0]++;
 	}
-	output[i] = '\0';
+	output[i[0]] = '\0';
 	ft_printf("%s\n", output);
 	free(output);
 	return (0);

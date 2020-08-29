@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 14:53:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/23 15:40:58 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 13:04:48 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*get_tilda(t_env *env, char *str, int *i)
 {
 	char	*to_add;
 
+	ft_printf("TILDA\n");
+
 	if (!str)
 		return (NULL);
 	if (str[*i + 1] == '+')
@@ -60,23 +62,24 @@ char	*get_tilda(t_env *env, char *str, int *i)
 	return (to_add);
 }
 
-char	*get_dollar(t_env *env, char *str, int *i)
+char	*get_dollar(t_env *env, char *str)
 {
 	int		len;
 	char	*key;
 	char	*to_add;
 
+	ft_printf("DOLLAR\n");
+
 	len = 1;
-	while (ft_isalnum(str[*i + len]))
+	while (ft_isalnum(str[len]))
 		len++;
 	key = ft_strnew(len + 1);
 	if (!key)
 		return (NULL);
-	ft_strncpy(key, &str[*i + 1], len);
+	ft_strncpy(key, &str[1], len);
 	to_add = value_from_env(env, key);
 	free(key);
 	if (!to_add)
 		return (NULL);
-	*i += ft_strlen(to_add);
 	return (to_add);
 }

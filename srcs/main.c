@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:57:57 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/22 14:16:20 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 10:53:38 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,33 @@ char	*get_cmd(int fd)
 {
 	char	*bufer;
 	int		buf_size;
-	char	*smbl;
+	char	smbl[1];
 	int		i;
+	char	*overflow;
 
 	buf_size = 1024;
 	bufer = ft_strnew(buf_size);
-	smbl = ft_strnew(1);
 	i = 0;
 	while (read(fd, smbl, 1) > 0)
 	{
 		if (*smbl == '\n')
 			break ;
-		bufer[i] = *smbl;
-		i++;
+		bufer[i++] = smbl[0];
+		if (i == buf_size)
+		{
+			buf_size *= 2;
+			overflow = ft_strnew(buf_size);
+			ft_strncpy(overflow, bufer, i);
+			free(bufer);
+			bufer = overflow;
+		}
 	}
-	free(smbl);
 	return (bufer);
+}
+
+void	print_prompt(void)
+{
+	ft_printf("\033[1;34m---minishell$ \033[0m");
 }
 
 int		main(int argc, char **argv, char **envp)
@@ -74,7 +85,7 @@ int		main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal(SIGINT, main_listener);
-		ft_printf("\033[1;34m---minishell$ \033[0m");
+		print_prompt();
 		bufer = get_cmd(0);
 		if (!ft_strequ(bufer, ""))
 			cmd_input(bufer, env, &exit_flag);

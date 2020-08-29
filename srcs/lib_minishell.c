@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 09:57:50 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/16 14:30:27 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 11:10:28 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_name_or_key(char *str, char stop)
 	int		len;
 
 	len = 0;
-	while (str[len] && (str[len] != ' ' || str[len] != stop))
+	while (str[len] && (str[len] != ' ' && str[len] != stop))
 		len++;
 	if (!(prgm = ft_strnew(len)))
 		return (NULL);

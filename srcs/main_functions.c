@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/23 15:42:10 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 10:38:41 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ char	*get_full_cmd(char *cmd, t_env *env)
 	str = ft_strtrim(cmd);
 	if (!str)
 		return (NULL);
+	if (ft_strequ(str, ""))
+	{
+		free(str);
+		return (NULL);
+	}
 	new_str = ft_strtrim_into(str);
 	free(str);
 	str = new_str;
