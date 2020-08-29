@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 16:55:56 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 13:04:49 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 13:21:03 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*replace_symbols(char *str, char *to_replace, int *i)
 	new_str = ft_strjoin(str, to_replace);
 	free(str);
 	*i += ft_strlen(to_replace);
+	// free(to_replace);
+	// to_replace = NULL;
 	return (new_str);
 }
 
@@ -85,6 +87,7 @@ char	*check_quotes(t_env *env, char *cmd, int quote_rec[2])
 	str = ft_strnew(ft_strlen(cmd) + 1);
 	i[0] = -1;
 	i[1] = -1;
+	to_replace = NULL;
 	while (cmd[++i[0]])
 	{
 		i[1]++;
@@ -92,13 +95,17 @@ char	*check_quotes(t_env *env, char *cmd, int quote_rec[2])
 
 		// CHECK CONTENT
 		if (cmd[i[0]] == '~' && !quote[0] && !quote[1])
-			to_replace = get_tilda(env, cmd, &i[0]);
+			to_replace = get_tilda(env, &cmd[i[0]]);
 		else if (cmd[i[0]] == '$' && !quote[0] && cmd[i[0] + 1] &&
 			!ft_isspace(cmd[i[0] + 1]))
 			to_replace = get_dollar(env, &cmd[i[0]]);
 		
 		if (to_replace)
+		{
 			str = replace_symbols(str, to_replace, &i[1]);
+			free(to_replace);
+			to_replace = NULL;
+		}
 	}
 
 	// CHECK END INPUT

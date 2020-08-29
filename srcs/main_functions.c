@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 10:38:41 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 13:13:29 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		cmd_processing(char *cmd, t_env *env)
 
 	if (!(str = get_full_cmd(cmd, env)))
 		return (0);
+	// str = ft_strdup(cmd);
 	if (!(prgm = get_name_or_key(str, ' ')))
 		return (0);
 	if (ft_strequ(prgm, "echo"))
