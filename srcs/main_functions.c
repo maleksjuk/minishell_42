@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 13:13:29 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 15:25:18 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ char	*get_full_cmd(char *cmd, t_env *env)
 		return (NULL);
 	}
 	new_str = ft_strtrim_into(str);
-	free(str);
-	str = new_str;
-	if (!str)
+	if (!new_str)
 		return (NULL);
-	new_str = check_quotes(env, str, NULL);
 	free(str);
-	return (new_str);
+	str = check_quotes(env, new_str, NULL);
+	free(new_str);
+	return (str);
 }
 
 int		cmd_processing(char *cmd, t_env *env)

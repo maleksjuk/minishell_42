@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/22 16:55:56 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 13:21:03 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 15:52:00 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,15 @@ char	*get_from_wait_quotes(t_env *env, int quote[2])
 char	*replace_symbols(char *str, char *to_replace, int *i)
 {
 	char	*new_str;
+	char	*new_space;
 
 	new_str = ft_strjoin(str, to_replace);
 	free(str);
-	*i += ft_strlen(to_replace);
-	// free(to_replace);
-	// to_replace = NULL;
+	str = new_str;
+	new_space = ft_strnew(LEN_PATH);
+	new_str = ft_strjoin(str, new_space);
+	free(str);
+	*i += ft_strlen(to_replace) - 1;
 	return (new_str);
 }
 
@@ -79,12 +82,13 @@ char	*check_quotes(t_env *env, char *cmd, int quote_rec[2])
 {
 	char	*str;
 	int		i[2];	// 0 - cmd. 1 - str
-	int		quote[2];
+	int		quote[2];	// 0 - once, 1 - twice
 	char	*to_replace;
 	char	*new_str;
 
 	init_quote(quote, quote_rec);
 	str = ft_strnew(ft_strlen(cmd) + 1);
+	// str = ft_strnew(LEN_PATH);
 	i[0] = -1;
 	i[1] = -1;
 	to_replace = NULL;
@@ -94,17 +98,23 @@ char	*check_quotes(t_env *env, char *cmd, int quote_rec[2])
 		check_quote_position(cmd, str, i, quote);
 
 		// CHECK CONTENT
-		if (cmd[i[0]] == '~' && !quote[0] && !quote[1])
+		if (cmd[i[0]] == '~' && !quote[0] && !quote[1] && 
+			ft_isspace(cmd[i[0] - 1]))
 			to_replace = get_tilda(env, &cmd[i[0]]);
 		else if (cmd[i[0]] == '$' && !quote[0] && cmd[i[0] + 1] &&
 			!ft_isspace(cmd[i[0] + 1]))
 			to_replace = get_dollar(env, &cmd[i[0]]);
+		else if (cmd[i[0]] == '~' || cmd[i[0]] == '$')
+			str[i[1]] = cmd[i[0]];
 		
 		if (to_replace)
 		{
 			str = replace_symbols(str, to_replace, &i[1]);
 			free(to_replace);
 			to_replace = NULL;
+			while (cmd[i[0]] && cmd[i[0]] != ' ')
+				i[0]++;
+			i[0]--;
 		}
 	}
 

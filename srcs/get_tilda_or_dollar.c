@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 14:53:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 13:26:57 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/29 16:18:35 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*users_tilda(char *str, t_env *env)
 char	*get_tilda(t_env *env, char *str)
 {
 	char	*to_add;
+	int		len;
 
 	if (!str)
 		return (NULL);
@@ -48,11 +49,17 @@ char	*get_tilda(t_env *env, char *str)
 	else if (str[1] && str[1] == '-')
 		to_add = value_from_env(env, "OLDPWD");
 	else if (!str[1] || str[1] == '/' || str[1] == ' ' || str[1] == ';')
-		to_add = value_from_env(env, "HOME");
+		to_add = value_from_env(env, "HOME");	// check
 	else if (str[1] && ft_isalpha(str[1]))
 		to_add = users_tilda(&str[1], env);
 	else
-		to_add = ft_strdup("~");
+	{
+		len = 0;
+		while (str[len] && str[len] != ' ')
+			len++;
+		to_add = ft_strnew(len);
+		ft_strncpy(to_add, str, len);
+	}
 	if (!to_add)
 		return (NULL);
 	return (to_add);
@@ -67,10 +74,10 @@ char	*get_dollar(t_env *env, char *str)
 	len = 1;
 	while (str[len] && ft_isalnum(str[len]))
 		len++;
-	key = ft_strnew(len + 1);
+	key = ft_strnew(len);
 	if (!key)
 		return (NULL);
-	ft_strncpy(key, &str[1], len);
+	ft_strncpy(key, &str[1], len - 1);
 	to_add = value_from_env(env, key);
 	free(key);
 	if (!to_add)
