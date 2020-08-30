@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 15:25:18 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/30 13:29:41 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		cmd_processing(char *cmd, t_env *env)
 		return (0);
 	// str = ft_strdup(cmd);
 	if (!(prgm = get_name_or_key(str, ' ')))
-		return (0);
+		return (error_message("not get program name", str));
 	if (ft_strequ(prgm, "echo"))
 		cmd_echo(str + 5);
 	else if (ft_strequ(prgm, "cd"))

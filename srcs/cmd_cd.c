@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/20 12:40:11 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/16 14:30:08 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/30 12:44:19 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ void	change_one_env(t_env *env, char *value)
 	free(env->value);
 	free(env->str);
 	env->value = ft_strdup(value);
-	new_str = ft_strjoin(env->key, "=");
+	if (!(new_str = ft_strjoin(env->key, "=")))
+		if (!(new_str = ft_strjoin(env->key, "=")))
+			return ;
 	env->str = ft_strjoin(new_str, value);
 	free(new_str);
 }
