@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 11:20:06 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/30 13:29:41 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/30 14:38:34 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*get_full_cmd(char *cmd, t_env *env)
 	if (!new_str)
 		return (NULL);
 	free(str);
-	str = check_quotes(env, new_str, NULL);
+	str = check_symbols(env, new_str, NULL);
 	free(new_str);
 	return (str);
 }
@@ -73,11 +73,10 @@ int		cmd_processing(char *cmd, t_env *env)
 
 	if (!(str = get_full_cmd(cmd, env)))
 		return (0);
-	// str = ft_strdup(cmd);
 	if (!(prgm = get_name_or_key(str, ' ')))
 		return (error_message("not get program name", str));
 	if (ft_strequ(prgm, "echo"))
-		cmd_echo(str + 5);
+		cmd_echo(ft_strlen(str) > 5 ? str + 5 : NULL);
 	else if (ft_strequ(prgm, "cd"))
 		cmd_cd(env, ft_strlen(str) > 2 ? str + 3 : NULL);
 	else if (ft_strequ(prgm, "pwd"))

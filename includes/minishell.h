@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 13:22:12 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/30 15:10:06 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,18 @@ t_env				*create_one_env(char *str);
 t_env				*get_env(char **envp);
 
 /*
-**	check_quotes.c
+**	check_symbols.c
 */
-char				*check_quotes(t_env *env, char *cmd, int quote_rec[2]);
+char				*check_symbols(t_env *env, char *cmd, int quote_rec[2]);
+
+/*
+**	quotes.c
+*/
+void				init_quote(int *quote, int *quote_rec);
+char				*get_from_wait_quotes(t_env *env, int quote[2]);
+void				check_quote_position(char *cmd, char *str,
+										int *i, int quote[2]);
+char				*quotes_are_over(t_env *env, char *str, int *quote, int *i);
 
 /*
 **	get_tilda_or_dollar.c

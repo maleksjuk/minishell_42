@@ -6,7 +6,7 @@
 /*   By: obanshee <obanshee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 14:53:19 by obanshee          #+#    #+#             */
-/*   Updated: 2020/08/29 16:18:35 by obanshee         ###   ########.fr       */
+/*   Updated: 2020/08/30 14:40:20 by obanshee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_tilda(t_env *env, char *str)
 	else if (str[1] && str[1] == '-')
 		to_add = value_from_env(env, "OLDPWD");
 	else if (!str[1] || str[1] == '/' || str[1] == ' ' || str[1] == ';')
-		to_add = value_from_env(env, "HOME");	// check
+		to_add = value_from_env(env, "HOME");
 	else if (str[1] && ft_isalpha(str[1]))
 		to_add = users_tilda(&str[1], env);
 	else
